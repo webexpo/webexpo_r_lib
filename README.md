@@ -1,4 +1,4 @@
-# WEBEXPO Javascript Library
+# WEBEXPO R Library
 
 The scientific report describing the principles and details of the calculations allowed by the WEBEXPO algorithms is not public yet, but some details can be found [here](http://www.expostats.ca/site/en/webexpoen.html). The abstract of the scientific report can be found below.
 
