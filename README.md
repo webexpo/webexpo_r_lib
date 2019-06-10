@@ -12,7 +12,7 @@ In addition we require an attribution notice similar to what follows:
 
 Redistributions of any form whatsoever must retain the following acknowledgment:
 
- 'This product includes algorithms created during the Webexpo project at the Department of Environmental and occupational health,School of public health, University of Montreal, funded by The Institut de recherche Robert-Sauvé en santé et en sécurité du travail” (web adresse TBD)'.
+<i>This product includes algorithms created during the Webexpo project at the Department of Environmental and occupational health,School of public health, University of Montreal, funded by The Institut de recherche Robert-Sauvé en santé et en sécurité du travail (https://www.irsst.qc.ca/).</i>
 
 The final license statement will be issued when the libraries are officially released.
 
