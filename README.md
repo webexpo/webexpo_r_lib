@@ -4,6 +4,20 @@ The scientific report describing the principles and details of the calculations 
 
 -----------------------------------------------------------------------------------------------------
 
+ The Webexpo librairies are licensed under the Apache License, Version 2.0 (the "License");You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+In addition we require an attribution notice similar to what follows: 
+
+Redistributions of any form whatsoever must retain the following acknowledgment:
+
+ 'This product includes algorithms created during the Webexpo project at the Department of Environmental and occupational health,School of public health, University of Montreal, funded by The Institut de recherche Robert-Sauvé en santé et en sécurité du travail” (web adresse TBD)'.
+
+The final license statement will be issued when the libraries are officially released.
+
+--------------------------------------------------------------------------------------------------------
+
 A significant part of industrial hygiene activities is the measurement of workers’ occupational exposure levels. Considerable spatial and temporal variability is usually observed in most exposure assessment surveys, frequently with upto 10-fold variations in exposure intensity despite apparently similar conditions. This has historically represented an important challenge to the interpretation of measured levels with regard to comparison with occupational exposure limits (OELs). There now exists a consensus framework, progressively developed during the last two decades, for the analysis of exposure levels related to exposure limits. Within this framework, exposure levels are assumed to follow, at least approximately, a lognormal distribution. Several parameters from the underlying distribution deemed associated with health risk are estimated from a number of measurements and interepreted relative to the OEL.
 
 These developments, although permitting a better assessment of risk compared to historical approaches, have not been widely adopted by industrial hygiene practitioners, and involve notions of statistics not usually taught in traditional education programs. Moreover they require calculations not usually feasible in common tools such as calculators or spreadsheet programs. While some specific tools have been developed over the years, usually through volunteer initiatives, most are lacking in several areas, be they accessibility, functionality, user-friendliness or complexity. In addition, uncertainty in parameter estimates has mostly been taken into account through formal hypothesis tests or the calculation of confidence intervals, the results of which are not easily conveyed to decision makers, hampering the ability of practitioners to efficiently communicate risk. Finally, available tools are standalone, and are not easily amenable to integration within an existing data management structure.
