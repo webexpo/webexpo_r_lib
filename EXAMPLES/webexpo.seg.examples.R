@@ -19,54 +19,51 @@ library(ggplot2)
 
 require(gridExtra)
 
+library(here)
+
 #####  sourcing files
 
-
-    ## setting path
-    
-    setwd("C:/jerome/Dropbox/bureau/RStudio/Webexpo/scripts/WEBEXPO OFFICIAL R SCRIPTS")
-    
     ## data preparation / generation
     
-    source("RANDOM SAMPLE GENERATION/webexpo.seg.randomgeneration.R")
+    source(here("RANDOM SAMPLE GENERATION", "webexpo.seg.randomgeneration.R"))
     
-    source("DATA PREPARATION/SEG ANALYSIS/webexpo.seg.dataprep.R")
+    source(here("DATA PREPARATION", "SEG ANALYSIS", "webexpo.seg.dataprep.R"))
     
     # JAGS models
     
-    source("JAGS MODELS/SEG ANALYSIS/webexpo.seg.mainbayesian.R")
+    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.mainbayesian.R"))
     
-    source("JAGS MODELS/SEG ANALYSIS/webexpo.seg.informedvarbayesian.R")
+    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.informedvarbayesian.R"))
     
-    source("JAGS MODELS/SEG ANALYSIS/webexpo.seg.informedvarbayesian.models.R")
+    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.informedvarbayesian.models.R"))
     
-    source("JAGS MODELS/SEG ANALYSIS/webexpo.seg.uninformativebayesian.R")
+    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.uninformativebayesian.R"))
     
-    source("JAGS MODELS/SEG ANALYSIS/webexpo.seg.uninformativebayesian.models.R")
+    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.uninformativebayesian.models.R"))
     
-    source("JAGS MODELS/SEG ANALYSIS/webexpo.seg.riskbandbayesian.R")
+    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.riskbandbayesian.R"))
     
-    source("JAGS MODELS/SEG ANALYSIS/webexpo.seg.riskbandbayesian.models.R")
+    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.riskbandbayesian.models_old.R"))
     
     # McGill models
     
-    source("R MODELS/WRAPPING FUNCTIONS/webexpo.seg.mainbayesian.mcgill.R")
+    source(here("R MODELS", "WRAPPING FUNCTIONS", "webexpo.seg.mainbayesian.mcgill.R"))
     
-    source("R MODELS/McGILL FUNCTIONS/data-summary.R")
+    source(here("R MODELS", "McGILL FUNCTIONS", "data-summary.R"))
     
-    source("R MODELS/McGILL FUNCTIONS/fcts.R")
+    source(here("R MODELS", "McGILL FUNCTIONS", "fcts.R"))
     
-    source("R MODELS/McGILL FUNCTIONS/model-SEG-informedvar.R")
+    source(here("R MODELS", "McGILL FUNCTIONS", "model-SEG-informedvar.R"))
     
-    source("R MODELS/McGILL FUNCTIONS/model-SEG-uninformative.R")
+    source(here("R MODELS", "McGILL FUNCTIONS", "model-SEG-uninformative.R"))
     
-    source("R MODELS/McGILL FUNCTIONS/model-SEG-riskband.R")
+    source(here("R MODELS", "McGILL FUNCTIONS", "model-SEG-riskband.R"))
     
     # Data interpretation
     
-    source("RESULT INTERPRETATION/SEG ANALYSIS/webexpo.seg.interpretation.R")
+    source(here("RESULT INTERPRETATION", "SEG ANALYSIS", "webexpo.seg.interpretation.R"))
     
-    source("RESULT INTERPRETATION/SEG ANALYSIS/webexpo.seg.summary.R")
+    source(here("RESULT INTERPRETATION", "SEG ANALYSIS", "webexpo.seg.summary.R"))
 
 
 
