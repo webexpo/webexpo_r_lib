@@ -15,45 +15,46 @@
 
 library(rjags)
 
+library(here)
+
 #####  sourcing files
 
       ## setting path
       
-      setwd("C:/jerome/Dropbox/bureau/RStudio/Webexpo/scripts/WEBEXPO OFFICIAL R SCRIPTS")
       
       ## data preparation / generation
       
-      source("RANDOM SAMPLE GENERATION/webexpo.between.randomgeneration.R")
+      source(here("RANDOM SAMPLE GENERATION", "webexpo.between.randomgeneration.R"))
       
-      source("DATA PREPARATION/BETWEEN WORKER ANALYSIS/webexpo.between.dataprep.R")
+      source(here("DATA PREPARATION", "BETWEEN WORKER ANALYSIS", "webexpo.between.dataprep.R"))
       
       # JAGS models
       
-      source("JAGS MODELS/BETWEEN WORKER ANALYSIS/webexpo.between.mainbayesian.R")
+      source(here("JAGS MODELS", "BETWEEN WORKER ANALYSIS", "webexpo.between.mainbayesian.R"))
       
-      source("JAGS MODELS/BETWEEN WORKER ANALYSIS/webexpo.between.informedvarbayesian.R")
+      source(here("JAGS MODELS", "BETWEEN WORKER ANALYSIS", "webexpo.between.informedvarbayesian.R"))
       
-      source("JAGS MODELS/BETWEEN WORKER ANALYSIS/webexpo.between.informedvarbayesian.models.R")
+      source(here("JAGS MODELS", "BETWEEN WORKER ANALYSIS", "webexpo.between.informedvarbayesian.models.R"))
       
       # McGill models
       
-      source("R MODELS/WRAPPING FUNCTIONS/webexpo.between.mainbayesian.mcgill.R")
+      source(here("R MODELS", "WRAPPING FUNCTIONS", "webexpo.between.mainbayesian.mcgill.R"))
       
-      source("R MODELS/McGILL FUNCTIONS/data-summary.R")
+      source(here("R MODELS", "McGILL FUNCTIONS", "data-summary.R"))
       
-      source("R MODELS/McGILL FUNCTIONS/fcts.R")
+      source(here("R MODELS", "McGILL FUNCTIONS", "fcts.R"))
       
-      source("R MODELS/McGILL FUNCTIONS/model-Between-worker.R")
+      source(here("R MODELS", "McGILL FUNCTIONS", "model-Between-worker.R"))
       
       # Data interpretation
       
-      source("RESULT INTERPRETATION/BETWEEN WORKER ANALYSIS/webexpo.between.interpretation.R")
+      source(here("RESULT INTERPRETATION", "BETWEEN WORKER ANALYSIS", "webexpo.between.interpretation.R"))
       
-      source("RESULT INTERPRETATION/BETWEEN WORKER ANALYSIS/webexpo.between.summary.R")
+      source(here("RESULT INTERPRETATION", "BETWEEN WORKER ANALYSIS", "webexpo.between.summary.R"))
       
-      source("RESULT INTERPRETATION/SEG ANALYSIS/webexpo.seg.interpretation.R")
+      source(here("RESULT INTERPRETATION", "SEG ANALYSIS", "webexpo.seg.interpretation.R"))
       
-      source("RESULT INTERPRETATION/SEG ANALYSIS/webexpo.seg.summary.R")
+      source(here("RESULT INTERPRETATION", "SEG ANALYSIS", "webexpo.seg.summary.R"))
 
 
       
@@ -162,7 +163,7 @@ library(rjags)
                                                 is.lognormal = TRUE )
           #Saving results
           
-          write.csv(sum.seg.T8,"C:/jerome/Dropbox/bureau/UdM/projets/sampling strats tool/rapport IRSST/data/table8.csv")     
+          write.csv2(sum.seg.T8,here("EXAMPLES", "output", "table8.csv"))
           
           
 ######## exposure metrics for the least and most exposed workers in sample 1 and sample 2 : TABLE9
@@ -221,7 +222,7 @@ library(rjags)
       
       #Saving results
       
-      write.csv(sum.seg.T9,"C:/jerome/Dropbox/bureau/UdM/projets/sampling strats tool/rapport IRSST/data/table9.csv")     
+      write.csv2(sum.seg.T9,here("EXAMPLES", "output", "table9.csv")     )
       
       
       
@@ -281,7 +282,7 @@ library(rjags)
       
       #Saving results
       
-      write.csv(sum.seg.T10,"C:/jerome/Dropbox/bureau/UdM/projets/sampling strats tool/rapport IRSST/data/table10.csv")     
+      write.csv(sum.seg.T10,here("EXAMPLES", "output", "table10.csv"))
 
          
       
@@ -338,6 +339,6 @@ library(rjags)
       
       #Saving results
       
-      write.csv(sum.seg.T11,"C:/jerome/Dropbox/bureau/UdM/projets/sampling strats tool/rapport IRSST/data/table11.csv")     
+      write.csv(sum.seg.T11,here("EXAMPLES", "output", "table11.csv"))
          
 

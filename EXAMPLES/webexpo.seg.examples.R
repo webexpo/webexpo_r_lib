@@ -43,7 +43,7 @@ library(here)
     
     source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.riskbandbayesian.R"))
     
-    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.riskbandbayesian.models_old.R"))
+    source(here("JAGS MODELS", "SEG ANALYSIS", "webexpo.seg.riskbandbayesian.models.R"))
     
     # McGill models
     
@@ -228,12 +228,12 @@ sample.seg.1 <- c("24.7","64.1","13.8","43.7","19.9","133","32.1","15","53.7")
         #riskband informed 
         
         # graphical assessment of the bands
-        webexpo.riksbandcheck(is.lognormal = TRUE,
+        webexpo.riskbandcheck(is.lognormal = TRUE,
                               A = c(0.01,0.1,0.5,1) ,
-                              gm.min = 0.001 ,
-                              gm.max = 100 ,
-                              gsd.min = 1.05 ,
-                              gsd.max = 10 ,
+                              mu.lower.riskb = log(0.001) ,
+                              mu.upper.riskb = log(1000) ,
+                              sigma.lower = log(1.05) ,
+                              sigma.upper = log(10) ,
                               target_perc = 95)
         #bayesian model
         mcmc.seg.4 <- Webexpo.seg.globalbayesian.jags( data.sample = sample.seg.1 ,
@@ -287,7 +287,7 @@ sample.seg.1 <- c("24.7","64.1","13.8","43.7","19.9","133","32.1","15","53.7")
                                      is.lognormal = TRUE)           
         # Saving the results
                   
-        write.csv(sum.seg.T5,"C:/jerome/Dropbox/bureau/UdM/projets/sampling strats tool/rapport IRSST/data/table5.csv")          
+        write.csv2(sum.seg.T5,here("EXAMPLES", "output", "table5.csv"))
                   
 ############# illustration of measurement error treatment - TABLE 6
         
@@ -374,7 +374,7 @@ sample.seg.1 <- c("24.7","64.1","13.8","43.7","19.9","133","32.1","15","53.7")
                                      is.lognormal = TRUE) 
         # Saving the results
         
-        write.csv(sum.seg.T6,"C:/jerome/Dropbox/bureau/UdM/projets/sampling strats tool/rapport IRSST/data/table6.csv")              
+        write.csv2(sum.seg.T6,here("EXAMPLES", "output", "table6.csv"))
  
 ##############  normal example -  TABLE 7
         
@@ -410,8 +410,4 @@ sample.seg.1 <- c("24.7","64.1","13.8","43.7","19.9","133","32.1","15","53.7")
                                      is.lognormal = FALSE) 
         
         # Saving the results
-        write.csv(sum.seg.T7,"C:/jerome/Dropbox/bureau/UdM/projets/sampling strats tool/rapport IRSST/data/table7.csv")
-                 
-          
-
-           
+        write.csv2(sum.seg.T7,here("EXAMPLES", "output", "table7.csv"))
