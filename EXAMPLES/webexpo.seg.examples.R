@@ -282,23 +282,23 @@ sample.seg.1 <- c("24.7","64.1","13.8","43.7","19.9","133","32.1","15","53.7")
                               target_perc = 95)
         # summaries
         
-        sum.seg.T5 <- webexpo.seg.summary( labels=c("Informedvar" , "Uninformative" , "PastData" , "Riskband") ,
+        sum.seg.T4 <- webexpo.seg.summary( labels=c("Informedvar" , "Uninformative" , "PastData" , "Riskband") ,
                                      result.list = list(num.seg.1,num.seg.2,num.seg.3,num.seg.4) , 
                                      is.lognormal = TRUE)           
         # Saving the results
                   
-        write.csv2(sum.seg.T5,here("EXAMPLES", "output", "table5.csv"))
-                  
-############# illustration of measurement error treatment - TABLE 6
+        write.csv2(sum.seg.T4,here("EXAMPLES", "output", "table4.csv"))
+ 
+############# illustration of measurement error treatment - TABLE 5
         
         
         #code disabled below. Find the actual samples in the associated EXCEL FILES or Report appendix
-        #sample.seg.2 <- webexpo.seg.gener.LN(n = 100,
-        #                                 no.censoring = TRUE,
-        #                                 gm = 60,
-        #                                 gsd = 1.5,
-        #                                error = "cv",
-        #                                 me.cv = 0.30)
+        sample.seg.2 <- webexpo.seg.gener.LN(n = 100,
+                                         no.censoring = TRUE,
+                                         gm = 60,
+                                         gsd = 1.5,
+                                        error = "cv",
+                                         me.cv = 0.30)
         
         
         # BayesiaN models
@@ -369,14 +369,14 @@ sample.seg.1 <- c("24.7","64.1","13.8","43.7","19.9","133","32.1","15","53.7")
                               target_perc = 95)
         # Summaries
         
-        sum.seg.T6 <- webexpo.seg.summary( labels=c("Naive","Known CV","Unknown CV") ,
+        sum.seg.T5 <- webexpo.seg.summary( labels=c("Naive","Known CV","Unknown CV") ,
                                      result.list = list( num.seg.1 , num.seg.2 , num.seg.3 ) , 
                                      is.lognormal = TRUE) 
         # Saving the results
         
-        write.csv2(sum.seg.T6,here("EXAMPLES", "output", "table6.csv"))
+        write.csv2(sum.seg.T5,here("EXAMPLES", "output", "table5.csv"))
  
-##############  normal example -  TABLE 7
+##############  normal example -  TABLE C2
         
         
         # Sample
@@ -405,9 +405,9 @@ sample.seg.1 <- c("24.7","64.1","13.8","43.7","19.9","133","32.1","15","53.7")
                               target_perc = 95 )
         
         # Summaries
-        sum.seg.T7 <- webexpo.seg.summary( labels=c("A1") ,
+        sum.seg.TC2 <- webexpo.seg.summary( labels=c("Point estimates and 90% credible interval") ,
                                      result.list = list(num.seg.1) , 
                                      is.lognormal = FALSE) 
         
         # Saving the results
-        write.csv2(sum.seg.T7,here("EXAMPLES", "output", "table7.csv"))
+        write.csv2(sum.seg.TC2,here("EXAMPLES", "output", "tableC2.csv"))

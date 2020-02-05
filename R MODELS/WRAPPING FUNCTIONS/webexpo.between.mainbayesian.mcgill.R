@@ -9,7 +9,7 @@
 #   Global function
 #
 #   V1.0 Sept 2018 
-#
+#   V1.1 Feb 2020 : correction of worker specific mean
 #############################################################
 
 
@@ -242,17 +242,16 @@ Webexpo.between.globalbayesian.mcgill <-function(
                    worker.index = worker.index)  
     
       
-   
-  if (is.lognormal) {
+    ## creation of worker means from worker effects
+    results$mu.workers <- results$mu.workers + results$mu.overall.chain
     
-    results$mu.overall.chain <- results$mu.overall.chain + log(oel)
-    results$mu.workers <- results$mu.workers + log(oel)
-  
-  }
+    ## for lognormal, adding log(OEL)
+    if (is.lognormal) {
+      results$mu.overall.chain <- results$mu.overall.chain + log(oel)
+      results$mu.workers <- results$mu.workers + log(oel)
+    }
   
   return(results)
-  
-  
 }    
 
 

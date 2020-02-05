@@ -8,7 +8,8 @@
 #
 #   RISKBAND FUNCTION
 #   
-#   V1.0 Sept 2018 
+#   V1.0 Sept 2018
+#   V1.1 Jan 2020 # implementation by JL of the latest McGill modifications 
 #
 #
 #
@@ -81,7 +82,7 @@ jags.model <- jags.model.riskband(is.lognormal=is.lognormal,
 ## Applyin the function testing the bands and potentially modifying the model
 
 
-jags.model <- riskband.rjags.model(jags.model, parms)
+jags.model <- riskband.rjags.model(file=textConnection(jags.model), parms)
 
 
 ### DATA LIST FOR JAGS
@@ -133,7 +134,7 @@ return(list(mu.chain=mu.chain , sigma.chain=sigma.chain))
 #Function to verify pertinence of A given the central and variance parameter ranges
 
 
-webexpo.riksbandcheck <- function(is.lognormal,
+webexpo.riskbandcheck <- function(is.lognormal,
                                   A = c(0.01,0.1,0.5,1) ,
                                   mu.lower.riskb = log(0.001) ,
                                   mu.upper.riskb = log(1000) ,
