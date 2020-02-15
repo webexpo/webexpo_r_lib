@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 EXAMPLES/output/*
+!EXAMPLES/output/.keep
