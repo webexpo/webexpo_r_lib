@@ -79,7 +79,7 @@ dataList = list(
 if (length(past.data)==3) {
   
   dataList$mean.past <- past.data$mean
-  dataList$sd.past <- past.data$sd
+  #dataList$sd.past <- past.data$sd
   dataList$n.past <- past.data$n
   dataList$ns2 <- (dataList$n.past - 1) * (dataList$sd.past^2)
   dataList$ns2.a <- (dataList$n.past - 1) / 2
