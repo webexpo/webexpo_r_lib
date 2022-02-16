@@ -4,10 +4,15 @@ source("c:/users/patri/home/consultation/L/Lavoue/webexpo/R/fcts.R")
 source("c:/users/patri/home/bin/R/fcts/bisectionalSearch.R")
                                                                                     
                                                                                          
-#  Version 0.24 (Feb 2022)
+#  Version 0.25 (Feb 2022)
                                                                                                                               
                                                                     
 # Change Log *******************************************************************          
+#
+#
+# Version 0.25 (Feb 2022)
+# -----------------------
+#   We have included the area of each riskband in the output, under the name geo$area
 #
 #
 # Version 0.24 (Feb 2022)
@@ -3048,7 +3053,8 @@ SEG.riskband <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
               
   if (use.continuous.piecewise.linear.prior)
   {
-    out$geo <- list(u=CPL$geometry$u, 
+    out$geo <- list(u=CPL$geometry$u,
+                    area=CPL$geometry$area, 
                     x95b=CPL$geometry$x95b, 
                     cos.theta=CPL$geometry$cos.theta,
                     R=CPL$geometry$R)
@@ -3197,17 +3203,13 @@ SEG.riskband.posterior.plot <- function(o, z=o$z.quantile)
 {
   # o: an output from SEG.riskband
   
-  mfrow <- par('mfrow')
-  par(mfrow=c(1,1))
-  color <- 'darkgoldenrod'
-  
   plot(o$sample$mu, o$sample$sd, type='p', pch='.', col='navy', 
        xlab=expression(mu), ylab=expression(sigma))
-  title(expression(paste("(", mu, ", ", sigma, ") -- scatter plot of a sample obtained from their joint posterior distribution"), sep=''))
+  title(expression(paste("(", mu, ", ", sigma, "): scatter plot of a sample obtained from their joint posterior distribution"), sep=''))
 
-
+  color <- 'darkgoldenrod'
   hist(o$sample$x95, nclass=50, xlab='P95', prob=T,
-       main='P95 -- histogram of values from a sample obtained\nfrom its posterior distribution')
+       main='P95: histogram of values from a sample obtained\nfrom its posterior distribution')
        
     abline(v=o$geo$x95b, col=color, lty=2)
     y.txt <- par('usr')[4] - par('cxy')[2]/2
@@ -3233,7 +3235,4 @@ SEG.riskband.posterior.plot <- function(o, z=o$z.quantile)
   
   hist(o$sample$sd, nclass=50, xlab=expression(sigma), prob=T, 
        main=expression(paste(sigma, ': histogram of values obtained from (', mu, ', ', sigma, ') joint posterior distribution')))
-  
-  
-  par(mfrow=mfrow)
 } # end of SEG.riskband.posterior.plot
