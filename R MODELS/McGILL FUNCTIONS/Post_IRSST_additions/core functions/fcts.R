@@ -1,6 +1,3 @@
-source("C:\\Users\\blitzrcr\\patrickb.stat\\Lavoue\\pkg.cpfiles\\rgen_icdf.R")
-
-
 # Version 0.26 (Apr 2021)
 # [distributed]
 
