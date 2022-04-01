@@ -4,7 +4,7 @@ NDEXPO can be references to using the following :
 
 Lavoué, J (2013) dealing with non-detects in industrial hygiene datasets. Exposure (official magazine of the British occupational hygiene society), December 2013, 13-16.
 
-Note added March 31st 2022 : on the ordering of opriginal data in the results
+Note added March 31st 2022 : on the ordering of the original data in the results
 
 This wa prompted by a user who found out that the "original data" section of the results were not the same as the input data. Here is the clarification below.
 
