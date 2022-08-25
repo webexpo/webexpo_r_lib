@@ -12,11 +12,6 @@
 #
 #############################################################
 
-## required libraries
-
-library(rjags)
-
-
 #required scripts
 # The following scripts must be sourced prior to sourcing this script
 
