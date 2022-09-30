@@ -179,7 +179,7 @@ Webexpo.seg.interpretation <- function( is.lognormal ,
               
               chain <- exp( mu.chain + qnorm( target_perc / 100 ) * sigma.chain )
               
-              riskbands <- 100*table( cut( chain , c(0.000001 , 0.01 , 0.1 , 0.5 , 1, 1000000)*oel)) / length(chain)
+              riskbands <- 100*table( cut( chain , c(exp(-20) , 0.01 , 0.1 , 0.5 , 1, exp(20))*oel)) / length(chain)
               
               names(riskbands) <- c("<0.01*OEL" , "[0.01-0.1]*OEL" , "[0.1-0.5]*OEL" , "[0.5-1]*OEL" , ">OEL")
               
@@ -194,7 +194,7 @@ Webexpo.seg.interpretation <- function( is.lognormal ,
               
               chain <- exp( mu.chain + 0.5 * sigma.chain^2 )
               
-              riskbands <- 100*table( cut( chain , c(0.000001 , 0.01 , 0.1 , 0.5 , 1, 1000000)*oel)) / length(chain)
+              riskbands <- 100*table( cut( chain , c(exp(-20) , 0.01 , 0.1 , 0.5 , 1, exp(20))*oel)) / length(chain)
               
               names(riskbands) <- c("<0.01*OEL" , "[0.01-0.1]*OEL" , "[0.1-0.5]*OEL" , "[0.5-1]*OEL" , ">OEL")
               
