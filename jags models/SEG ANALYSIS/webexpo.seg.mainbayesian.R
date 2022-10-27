@@ -9,7 +9,7 @@
 #   Global function
 #
 #   V1.0 Sept 2018  
-#   
+#   V1.01 Oct 2022 corrected min and max for censormlimitmat in lognormal model
 #
 #############################################################
 
@@ -145,11 +145,11 @@ Webexpo.seg.globalbayesian.jags <- function(
           #for left censored points :
           #Censortype is 0
           #left limit of censorLimitMat is the censoring value
-          #right limit of censorLimitMat is 50 (value we are sure any observation is smaller than)
+          #right limit of censorLimitMat is 1e+10 (value we are sure any observation is smaller than)
             
           #for right censored points :
           #Censortype is 2
-          #left limit of censorLimitMat is -50 (value we are sure any observation is greater than)
+          #left limit of censorLimitMat is 1e-10 (value we are sure any observation is greater than)
           #right limit of censorLimitMat is the censoring value
             
           #for interval censored points :
@@ -159,8 +159,8 @@ Webexpo.seg.globalbayesian.jags <- function(
           
           #for observed points :
           #Censortype is 1
-          #left limit of censorLimitMat is -50 (value we are sure any observation is greater than)
-          #right limit of censorLimitMat is 50 (value we are sure any observation is smaller than)                
+          #left limit of censorLimitMat is 1e-10 (value we are sure any observation is greater than)
+          #right limit of censorLimitMat is 1e+10 (value we are sure any observation is smaller than)                
           
           #censorLimitMat is the matrix of censoring points
           
@@ -181,8 +181,8 @@ Webexpo.seg.globalbayesian.jags <- function(
           
           ## creating the matrix of limits
           censorLimitMat <- matrix(nrow = length(y) , ncol = 2)
-          censorLimitMat[,1] <-rep(-50,length(y))
-          censorLimitMat[,2] <-rep(50,length(y))
+          censorLimitMat[,1] <-rep(1e-10,length(y))
+          censorLimitMat[,2] <-rep(1e+10,length(y))
           
           
           #left censored
