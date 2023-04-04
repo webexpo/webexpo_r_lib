@@ -88,8 +88,27 @@ fun.NdExpo.lognorm <-function(x){
         
         
         }
+	
+###################### less than 3 detects or  less than 5 total  #################################
+	
+	  else if(length(x[is.censored!=0])<3 | length(x)<5) {
+    
+    x.ordered[is.censored==0]<-x.ordered[is.censored==0]/2
+    
+    
+    y <- log(as.numeric(x.ordered))  
+    
+    pp <-((1:length(x))-0.375)/(length(x)+0.25)  
+    
+    
+    
+    res <-list(data=data.frame(xfin=x.ordered[x.order],yfin=y[x.order],is.censored=is.censored[x.order],pp=pp[x.order],order.index=x.order,x=x.ordered[x.order]),
+               alpha=0,beta=0)
+    
+    
+  }
 
-#########when there are NDs
+######### otherwise
 
       else {
       
