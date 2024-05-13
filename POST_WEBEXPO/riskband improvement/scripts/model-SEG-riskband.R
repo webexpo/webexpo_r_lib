@@ -1,10 +1,4 @@
-source("c:/users/patri/home/bin/R/fcts/dens.gen.icdf/dens-gen-icdf.R")
-source("c:/users/patri/home/consultation/L/Lavoue/webexpo/R/fcts.R")
-source("c:/users/patri/home/consultation/L/Lavoue/webexpo/riskband/R/CPL_prior.R")
-
-source("c:/users/patri/home/bin/R/fcts/bisectionalSearch.R")
-                                                                                    
-                                                                                         
+                                                                                     
 #  Version 0.26 (Feb 2022)
                                                                                                                               
                                                                     
@@ -228,7 +222,7 @@ SEG.riskband <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
 
   # IMPORTANT:
   # Selon la valeur de outcome.is.logNormally.distributed (TRUE/FALSE)
-  # nous devrions demander à l'usager 
+  # nous devrions demander Ã  l'usager 
   #  i) seulement (gm.min, gm.max, gsd.min, gsd.max)               si outcome.is.logNormally.distributed = TRUE
   # ii) seulement (mu.lower, mu.upper, sigma.lower, sigma.upper)   sinon
 
