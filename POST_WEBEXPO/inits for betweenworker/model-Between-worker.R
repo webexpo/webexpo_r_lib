@@ -1,4 +1,4 @@
-# Version 0.17 (Apr 2020)
+# Version 0.18 (Feb 2021)
    
                                                                                          
 
@@ -6,6 +6,10 @@
   #
   #   When updated, look for comments with new_* and modif_*
   #   to rapidly identify new/modified code.
+  #
+  # Version 0.18 (Feb 2021)
+  # ------------
+  #    Corrected data$log -> data$log.cens in a few occurences
   #
   # Version 0.17 (Apr 2020)
   # ------------
@@ -128,7 +132,7 @@ Between.worker <- function(y=numeric(0), worker=numeric(0),
     if (start.with.mle)
     {
       inits <- inits.BetweenWorker(data, use.uniform.prior.on.sds, sw.range, sb.range,
-                 log.sw.mu, log.sw.prec, log.sb.mu, log.sb.prec)
+                 log.sw.mu, log.sw.prec, log.sb.mu, log.sb.prec, logNormal.distrn=logNormal.distrn)
 
       converged <- inits$converged
 
@@ -168,7 +172,7 @@ Between.worker <- function(y=numeric(0), worker=numeric(0),
       {
         if (data$size$gt > 0)
         {
-          if (logNormal.distrn) normalized.y <- c(normalized.y, data$log$gt)
+          if (logNormal.distrn) normalized.y <- c(normalized.y, data$log.cens$gt)
           else normalized.y <- c(normalized.y, data$gt)
 
           ids <- c(ids, data$id$gt)
@@ -176,7 +180,7 @@ Between.worker <- function(y=numeric(0), worker=numeric(0),
 
         if (data$size$lt > 0)
         {
-          if (logNormal.distrn) normalized.y <- c(normalized.y, data$log$lt)
+          if (logNormal.distrn) normalized.y <- c(normalized.y, data$log.cens$lt)
           else normalized.y <- c(normalized.y, data$lt)
 
           ids <- c(ids, data$id$lt)
@@ -184,7 +188,7 @@ Between.worker <- function(y=numeric(0), worker=numeric(0),
 
         if (data$size$i > 0)
         {
-          if (logNormal.distrn) normalized.y <- c(normalized.y, data$log$i)
+          if (logNormal.distrn) normalized.y <- c(normalized.y, data$log.cens$i)
           else normalized.y <- c(normalized.y, data$i)
 
           ids <- c(ids, data$id$i)

@@ -1,10 +1,13 @@
-# Version 0.4 (Apr 2020) 
+# Version 0.5 (Feb 2021) 
 #
-
-
 # _______________________________________________________________
 # Change Log
 #
+#
+# Version 0.5 (Feb 2021)
+# ---------------------
+#   Wrapped y.count, l.count, r.count and d.count in a list
+#   Corrected one or two typos in the code
 #
 # Version 0.4 (Apr 2020)
 # ----------------------
@@ -12,11 +15,13 @@
 #    was unchanged but moved to function f12
 #  - A protection against non-convergence was also added to function one.subject.estimate
 #
+#
 # Version 0.3 (Apr 2020)
 # ----------------------
 #   Added argument old.McNally
 #   Changed order of arguments sw.range & sb.range in fct call
 #   Renamed function f3 -> dl.dsigmaw
+#
 #
 # Version 0.2 (Apr 2020)
 # ----------------------
@@ -30,6 +35,7 @@ inits.BetweenWorker <- function(data,
                          sb.range=sigma.between.range,
                          log.sw.mu=log.sigma.within.mu,  log.sw.prec=log.sigma.within.prec,
                          log.sb.mu=log.sigma.between.mu, log.sb.prec=log.sigma.between.prec,
+                         logNormal.distrn=F,
                          max.niter=500, epsilon=1e-6, old.McNally=F
                          )
 {
@@ -317,22 +323,23 @@ inits.BetweenWorker <- function(data,
 
 
   # new_0.4
-  f12 <- function(mu.worker, mu.overall, sigma.within, sigma.between,
-                  y.count, l.count, r.count, d.count, y.sum)
+  f12 <- function(mu.worker, mu.overall, sigma.within, sigma.between, count, y.sum) # modif_0.5 use of *count* list
   {
     workers <- seq(along=mu.worker) # new_0.4
 
-    tmp <- y.sum - (mu.worker + mu.overall) * y.count  # vector of length = n.workers
+    tmp <- y.sum - (mu.worker + mu.overall) * count$y  # vector of length = n.workers # modif_0.5
     f1 <- tmp / sigma.within^2
-    df1.dmui <- -y.count / sigma.within^2
+    df1.dmui <- - count$y / sigma.within^2 # modif_0.5 use of count$y
     df1.dsigmaw <- -2*tmp / sigma.within^3
 
 
     for (i in workers)
     {
+      # modif_0.5 use of count list in this loop
+
       my.mu <- mu.worker[i] + mu.overall # modif_0.4: changed theta[i] for mu.worker[i]
 
-      if (r.count[i] > 0)
+      if (count$r[i] > 0)
       {
         tmp <- subset(r, id==i) 
 
@@ -342,7 +349,7 @@ inits.BetweenWorker <- function(data,
       }
 
 
-      if (l.count[i] > 0)
+      if (count$l[i] > 0)
       {
         tmp <- subset(l, id==i)
 
@@ -352,7 +359,7 @@ inits.BetweenWorker <- function(data,
       }
 
 
-      if (d.count[i] > 0)
+      if (count$d[i] > 0)
       {
         tmp <- subset(d, id==i)
 
@@ -631,7 +638,10 @@ inits.BetweenWorker <- function(data,
     }
 
     mu <- median(tmp.mu)
-    sigma <- 0.001
+    
+    # modif_0.5
+    # sigma <- 0.001
+    sigma <- median(tmp.sigma) # new_0.5
 
 
     # Prepare objects
@@ -647,38 +657,86 @@ inits.BetweenWorker <- function(data,
     r.len <- length(r)
     l.len <- length(l)
     d.len <- length(dl)
+      
+      
+    # new_0.5
+    # Run a univariate N-R to find the best sigma given (fixed) mu
+    
+      # But first make sure that we are on the left side of sigma-hat
+      
+      continue <- T
+      
+      while (continue)
+      {
+        df2.dsigma <- y.len/sigma^2
+        if (y.len > 0) df2.dsigma <- df2.dsigma - 3*sum((y-mu)^2)/sigma^4
+        if (r.len > 0) df2.dsigma <- df2.dsigma - dg2.dsigma(r-mu, sigma)
+        if (l.len > 0) df2.dsigma <- df2.dsigma - dg2.dsigma(mu-l, sigma) 
+        if (d.len > 0) df2.dsigma <- df2.dsigma - dgm.dsigma(dl, dr, mu, sigma)
+        
+        if (df2.dsigma > 0) sigma <- sigma / 2
+        else continue <- F
+      }
+    
 
     continue <- T
-    converged <- F
-    counter <- 0
-
-    J <- matrix(NA, 2, 2)
-
-
-      # Make sure sigma is not too small to start with
-
-      if (d.len > 0)
-      {
-        tmp <- gd(dl, dr, mu, sigma)
-
-        while (is.nan(tmp) | is.infinite(tmp))
-        {
-          # tmp is not-a-number if the denominator in gd was null
-          sigma <- sigma * 2
-          tmp <- gd(dl, dr, mu, sigma)
-        }
-      }
-
-
-    theta <- c(mu, sigma)
-
-
-    # Run Newton-Raphson algorithm
+    iter <- 0
+    sigma.prev <- sigma
 
 
     while (continue)
+    {  
+      f2 <- -y.len/sigma + sum((y-mu)^2)/sigma^3  # scalar
+      if (r.len > 0) f2 <- f2 - g2(r-mu, sigma)
+      if (l.len > 0) f2 <- f2 - g2(mu-l, sigma)
+      if (d.len > 0) f2 <- f2 - gm(dl, dr, mu, sigma)
+  
+      df2.dsigma <- y.len/sigma^2
+      if (y.len > 0) df2.dsigma <- df2.dsigma - 3*sum((y-mu)^2)/sigma^4
+      if (r.len > 0) df2.dsigma <- df2.dsigma - dg2.dsigma(r-mu, sigma)
+      if (l.len > 0) df2.dsigma <- df2.dsigma - dg2.dsigma(mu-l, sigma) 
+      if (d.len > 0) df2.dsigma <- df2.dsigma - dgm.dsigma(dl, dr, mu, sigma)
+  
+      if (df2.dsigma > 0)
+      {
+        sigma <- sigma / 2
+      }
+      else
+      {
+        change <- f2 / df2.dsigma
+      
+        if (!is.nan(change))
+        {
+          sigma <- sigma - change
+          if (sigma < 0) sigma <- (sigma + change) / 2
+        
+          iter <- iter + 1
+          converged <- abs(change) < epsilon
+          continue <- !converged && iter < max.niter
+        }
+        else
+        {
+          converged <- F
+          continue <- F
+        }
+      }
+    }
+ 
+    if (!converged) sigma <- sigma.prev
+    
+    
+    # Run multivariate Newton-Raphson algorithm
+    
+    continue <- T
+    converged <- F
+    iter <- 0
+    
+    theta <- c(mu, sigma)
+    J <- matrix(NA, 2, 2)
+
+    while (continue)
     {
-      counter <- counter + 1
+      iter <- iter + 1
 
       a <- y - mu                  # vector of length = y.len
       a.sum <- my.ysum - y.len*mu  # scalar
@@ -767,7 +825,7 @@ inits.BetweenWorker <- function(data,
         continue <- T
       }
 
-      if (continue) continue <- counter < max.niter
+      if (continue) continue <- iter < max.niter
 
       mu <- theta[1]
       sigma <- theta[2]
@@ -810,24 +868,35 @@ inits.BetweenWorker <- function(data,
 
 
   y <- data.frame(y=data$y, id=data$id$y)  # Known data points
+  if (logNormal.distrn) y$y <- data$log$y  # new_0.5
 
   # Censored data
 
   if (old.McNally)
   {
     # modif_0.3 block made conditional
+    
+    # new_0.5
+    if (logNormal.distrn) tmp.cens <- data$log.cens
+    else                  tmp.cens <- data$cens
 
-    r <- data.frame(r=data$cens$r, id=data$id$r)                     # of shape y < r
-    l <- data.frame(l=data$cens$l, id=data$id$l)                     # of shape y > l
-    d <- data.frame(l=data$cens$i$l, r=data$cens$i$r, id=data$id$i)  # of shape l < y < r
+    # modif_0.5
+    r <- data.frame(r=tmp.cens$r, id=data$id$r)                     # of shape y < r
+    l <- data.frame(l=tmp.cens$l, id=data$id$l)                     # of shape y > l
+    d <- data.frame(l=tmp.cens$i$l, r=tmp.cens$i$r, id=data$id$i)  # of shape l < y < r
   }
   else
   {
+    # new_0.5
+    if (logNormal.distrn) tmp.cens <- data$log.cens
+    else                  tmp.cens <- data$cens
+  
     # new_0.3
+    # modif_0.5
    
-    r <- data.frame(r=data$cens$lt, id=data$i$lt)                      # of shape y < lt
-    l <- data.frame(l=data$cens$gt, id=data$i$gt)                      # of shape y > gt
-    d <- data.frame(l=data$cens$i$gt, r=data$cens$i$lt, id=data$id$i)  # of shape gt < y < lt
+    r <- data.frame(r=tmp.cens$lt, id=data$i$lt)                      # of shape y < lt
+    l <- data.frame(l=tmp.cens$gt, id=data$i$gt)                      # of shape y > gt
+    d <- data.frame(l=tmp.cens$i$gt, r=tmp.cens$i$lt, id=data$id$i)  # of shape gt < y < lt
   }
 
 
@@ -846,25 +915,26 @@ inits.BetweenWorker <- function(data,
   # Count number of values in objects y, r, l & i for each worker
 
   tmp <- rep(0, n.workers)
-  y.count <- tmp
-  r.count <- tmp
-  l.count <- tmp
-  d.count <- tmp
+  count <- list(y=tmp, l=tmp, r=tmp, d=tmp) # new_0.5 replaces the four lines below
+    # y.count <- tmp
+    # r.count <- tmp
+    # l.count <- tmp
+    # d.count <- tmp
 
   y.sum <- tmp
 
 
   tmp <- aggregate(y~id, data=y, length)
-  y.count[tmp$id] <- tmp$y
+  count$y[tmp$id] <- tmp$y               # modif_0.5 use of count$y
 
   tmp <- aggregate(r~id, data=r, length)
-  r.count[tmp$id] <- tmp$r
+  count$r[tmp$id] <- tmp$r               # modif_0.5 use of count$r
  
   tmp <- aggregate(l~id, data=l, length)
-  l.count[tmp$id] <- tmp$l
+  count$l[tmp$id] <- tmp$l               # modif_0.5 use of count$l
 
   tmp <- aggregate(r~id, data=d, length)
-  d.count[tmp$id] <- tmp$r
+  count$d[tmp$id] <- tmp$r               # modif_0.5 use of count$d
 
 
   tmp <- aggregate(y~id, data=y, sum)
@@ -876,7 +946,7 @@ inits.BetweenWorker <- function(data,
   # (by first getting individual estimates first)
 
 
-  estimable <- y.count > 0 | d.count > 0 | (r.count > 0 & l.count > 0) # logical vector of length = n.workers
+  estimable <- count$y > 0 | count$d > 0 | (count$r > 0 & count$l > 0) # logical vector of length = n.workers # modif_0.5 use of count list
   mu.estimates <- rep(NA, length(estimable))
   sw.estimates <- rep(NA, length(estimable))
 
@@ -891,10 +961,11 @@ inits.BetweenWorker <- function(data,
 
       run.one.subject.estimate <- T
       if (length(my.y$y) == 1) run.one.subject.estimate <- F
-      if (length(my.y$y) > 1) run.one.subject.estimate <- sd(my.y$y) > 0
+      if (length(my.y$y) > 1)  run.one.subject.estimate <- sd(my.y$y) > 0
 
 
-      if (!run.one.subject.estimate) 
+      # modif_0.5 Added length(my.y$y) in the condition below
+      if (!run.one.subject.estimate && length(my.y$y) > 0) 
       {
         my.ybar <- mean(my.y$y)
         run.one.subject.estimate <- any(my.l$l > my.ybar) | any(my.d$l > my.ybar) | any(my.r$r < my.ybar) | any(my.d$r < my.ybar)
@@ -902,7 +973,7 @@ inits.BetweenWorker <- function(data,
       
       if (!run.one.subject.estimate)
       {
-        tmp.l <- c(my.d$l, my.r$l)
+        tmp.l <- c(my.d$l, my.l$l) # modif_0.5 correction: changed my.r$l -> my.l$l
         tmp.r <- c(my.d$r, my.r$r)
         tmp.l <- median(tmp.l)
         tmp.r <- median(tmp.r)
@@ -934,57 +1005,14 @@ inits.BetweenWorker <- function(data,
   }
 
 
-# Ce bloc est inutile -- je le garde seulement au cas ou on aurait besoin d'y revenir...
-#    # Prepare data used to derive initial values
-#
-#    df <- data.frame(y=numeric(0), id=numeric(0))
-#
-#    if (length(data$id$y) > 0)
-#    {
-#      df.tmp <- data.frame(y=data$y, id=data$id$y)
-#      df <- rbind.data.frame(df, df.tmp)
-#    }
-#
-#    if (length(data$id$l) > 0)
-#    {
-#      df.tmp <- data.frame(y=data$cens$l, id=data$id$l)
-#      df <- rbind.data.frame(df, df.tmp)
-#    }
-#
-#    if (length(data$id$r) > 0)
-#    {
-#      df.tmp <- data.frame(y=data$cens$r, id=data$id$r)
-#      df <- rbind.data.frame(df, df.tmp)
-#    }
-#
-#    if (length(data$id$i) > 0)
-#    {
-#      df.tmp <- data.frame(y=(data$cens$i$l + data$cens$i$r)/2, id=data$id$i)
-#      df <- rbind.data.frame(df, df.tmp)
-#    }
-#    
-#
-#    # For mu.worker, take the observed mean by worker
-#    mu.worker <- aggregate(y~id, data=df, mean)$y
-#        
-#    mu.overall <- mean(mu.worker)
-#    mu.worker <- mu.worker - mu.overall # center mu.worker
-#
-#    # For sigma.within, use sd of initial values around worker predicted means
-#    predicted <- mu.overall + mu.worker[df$id]
-#    sigma.within <- sd(df$y-predicted)
-#
-#    sigma.between <- sd(mu.worker)
-
-
-  # .................................................................
-  # Run a univariate Newton-Raphson algorith to find an initial value
+  # ...................................................................
+  # Run a univariate Newton-Raphson algorithm to find an initial value
   # for sigma.within, with fixed values for mu.overall & mu.worker
   # as calculated above
 
   continue <- T
   converged <- F
-  counter <- 0
+  iter <- 0
 
   while (continue)
   {
@@ -997,11 +1025,10 @@ inits.BetweenWorker <- function(data,
     change <- tmp$f / tmp$fp
     sigma.within <- sigma.within - change
       
-    continue <- abs(change) > epsilon
-    converged <- !continue
-    counter <- counter + 1
-
-    if (continue) continue <- counter < max.niter
+    converged <- abs(change) < epsilon # modif_0.5
+    
+    iter <- iter + 1
+    continue <- !converged & iter < max.niter
   }
 
   # .................................................................
@@ -1032,16 +1059,12 @@ inits.BetweenWorker <- function(data,
   # *** Newton-Raphson algorithm to find optimal theta ********************
 
 
-  theta0 <- c(mu.worker, mu.overall, sigma.within)
-  theta <- theta0
+  theta <- c(mu.worker, mu.overall, sigma.within)
   workers <- seq(n.workers)
 
   continue <- T
   converged <- F
-  counter <- 0
-
-
-
+  iter <- 0
 
 
   while (continue)
@@ -1050,8 +1073,7 @@ inits.BetweenWorker <- function(data,
     # f1 = dl/dmu_i, i = 1, 2, ..., n.workers -------------------------------
     # f2 = dl/dmu
 
-
-    tmp <- f12(mu.worker, mu.overall, sigma.within, sigma.between, y.count, l.count, r.count, d.count, y.sum)
+    tmp <- f12(mu.worker, mu.overall, sigma.within, sigma.between, count, y.sum) # modif_0.5 use of count list
 
       f1 <- tmp$f1
       f2 <- tmp$f2
@@ -1109,7 +1131,7 @@ inits.BetweenWorker <- function(data,
 
     continue <- any(abs(change) > epsilon)
     converged <- !continue
-    counter <- counter + 1
+    iter <- iter + 1
 
 
     previous.sw <- sigma.within
@@ -1135,7 +1157,7 @@ inits.BetweenWorker <- function(data,
       } 
 
 
-    if (continue) continue <- counter < max.niter
+    if (continue) continue <- iter < max.niter
   }
 
 
