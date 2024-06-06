@@ -42,10 +42,10 @@
 
 ##### example (The default example in Expostats TOOL 1)
 
-mydata <-c("28.9","19.4","<5.5","149.9","26.42","56.1")
+#mydata <-c("28.9","19.4","<5.5","149.9","26.42","56.1")
 
 
-fun.NdExpo.lognorm( mydata )$data$xfin
+#fun.NdExpo.lognorm( mydata )$data$xfin
 
 
 #START DEFINING FUNCTION
