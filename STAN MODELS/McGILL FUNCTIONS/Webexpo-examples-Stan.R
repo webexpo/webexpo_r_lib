@@ -16,51 +16,49 @@
 # 3) compile de selected model and store it in tghe above folder
 # 4) run the stan function with the data
 
-stan.folder <- 'F:\Dropbox\temp\stanmodels'
+stan.folder <- 'F:/Dropbox/temp/stanmodels'
 
 setwd(stan.folder)
 
-# --- preparing the compiled models -------------------------------------------------------------------------
+# --- sourcing the stan functions -------------------------------------------------------------------------
 
-f <- 'SEG-uniformative.stan'
-code <- readLines(f)
-stan.model.Uninformative <- stan_model(model_code=code)
-saveRDS(stan.model.Uninformative, file='stan_model_Uninformative.RDS')
+library(rstan)
+
+source('https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/McGILL%20FUNCTIONS/stan-fcts.R')
+source('https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/McGILL%20FUNCTIONS/SEG-informedVar-stan.R')
+source('https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/McGILL%20FUNCTIONS/SEG-uninformative-stan.R')
+source('https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/McGILL%20FUNCTIONS/SEG-informedMean-stan.R')
 
 
 # --- Uninformative / normal / no ME -----------------------------------------------------------------------
 
-source('SEG-uninformative-stan.R') # lit fct et pre-compile le modele
+# compiling and saving the model
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative.stan'
+code <- readLines(f)
+stan.model.uninformative <- stan_model(model_code=code)
+saveRDS(stan.model.uninformative,"SEG_stan_model_uninformative.RDS")
 
 y <- c(6, 7.2, 5.4, 6.08)
-o <- SEG.uninformative.stan(y, outcome.is.logNormally.distributed=FALSE)
+o <- SEG.uninformative.stan(y, outcome.is.logNormally.distributed=FALSE,
+                            models.folder=stan.folder)
 
 plot(o$mu, o$sigma, type='p', pch='.')
 
 
 # --- InformedVar -------------------------------------------------------------------------
 
-source('SEG-informedVar-stan.R') # lit fct et pre-compile le modele
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar.stan'
+code <- readLines(f)
+stan.model.informedVar <- stan_model(model_code=code)
+saveRDS(stan.model.informedVar,"SEG_stan_model_informedVar.RDS")
+
+
 
 y <- c(6, 7.2, 5.4, 6.08)
-o <- SEG.informedvar.stan(y, outcome.is.logNormally.distributed=FALSE)
+o <- SEG.informedvar.stan(y, outcome.is.logNormally.distributed=FALSE,
+                          models.folder=stan.folder)
 
 plot(o$mu, o$sigma, type='p', pch='.')
 
 
-obs <- c(0.123755622, 0.003125879, 0.095770970, 0.047123777, 0.040842749, 0.001553962, 0.002537681, 0.003694534)
-lt <- 0.0008851732
-
-res <- SEG.informedvar.stan(y=obs, lt=lt, mu.lower = -20, mu.upper=20)
-
-
-
-
-# --- InformedVar & InformedMean ----------------------------------------------------------
-
-source('SEG-informedMean-stan.R') # lit fct et pre-compile le modele
-
-y <- c(6, 7.2, 5.4, 6.08)
-o <- SEG.informedmean.stan(y, mu.mean=3, mu.sd=1.2, outcome.is.logNormally.distributed=FALSE)
-
-plot(o$mu, o$sigma, type='p', pch='.')

@@ -13,31 +13,27 @@
 ##### Uninformative models ---------------------------
 
 
-f <- 'SEG-uniformative.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative.stan'
 code <- readLines(f)
-stan.model.Uninformative <- stan_model(model_code=code)
-saveRDS(stan.model.Uninformative, file='stan_model_Uninformative.RDS')
+stan.model.uninformative <- stan_model(model_code=code)
 
 
-f <- 'SEG-uniformative-logNormal+me=classic.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative_logNormal_mesd.stan'
 code <- readLines(f)
-stan.model.Uninformative.logNormal.mesd <- stan_model(model_code=code)
-saveRDS(stan.model.Uninformative.logNormal.mesd, file='stan_model_Uninformative_logNormal_mesd.RDS')
+stan.model.uninformative.logNormal.mesd <- stan_model(model_code=code)
 
-f <- 'SEG-uniformative-Normal+me=classic.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative_Normal_mesd.stan'
 code <- readLines(f)
-stan.model.Uninformative.Normal.mesd <- stan_model(model_code=code)
-saveRDS(stan.model.Uninformative.Normal.mesd, file='stan_model_Uninformative_Normal_mesd.RDS')
+stan.model.uninformative.Normal.mesd <- stan_model(model_code=code)
 
-f <- 'SEG-uniformative-logNormal+me=CV.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative_logNormal_mecv.stan'
 code <- readLines(f)
-stan.model.Uninformative.logNormal.mecv <- stan_model(model_code=code)
-saveRDS(stan.model.Uninformative.logNormal.mecv, file='stan_model_Uninformative_logNormal_mecv.RDS')
+stan.model.uninformative.logNormal.mecv <- stan_model(model_code=code)
 
-f <- 'SEG-uniformative-Normal+me=CV.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative_Normal_mecv.stan'
 code <- readLines(f)
-stan.model.Uninformative.Normal.mecv <- stan_model(model_code=code)
-saveRDS(stan.model.Uninformative.Normal.mecv, file='stan_model_Uninformative_Normal_mecv.RDS')
+stan.model.uninformative.Normal.mecv <- stan_model(model_code=code)
+
 
 
 
@@ -45,118 +41,97 @@ saveRDS(stan.model.Uninformative.Normal.mecv, file='stan_model_Uninformative_Nor
 
 
 
-f <- 'SEG-informedVar.stan'
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar.stan'
 code <- readLines(f)
-stan.model.InformedVar <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar, file='stan_model_InformedVar.RDS')
+stan.model.informedVar <- stan_model(model_code=code)
 
 
-f <- 'SEG-informedVar-logNormal+me=classic.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_logNormal_mesd.stan'
 code <- readLines(f)
-stan.model.InformedVar.logNormal.mesd <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.logNormal.mesd, file='stan_model_InformedVar_logNormal_mesd.RDS')
+stan.model.informedVar.logNormal.mesd <- stan_model(model_code=code)
 
-f <- 'SEG-informedVar-Normal+me=classic.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_Normal_mesd.stan'
 code <- readLines(f)
-stan.model.InformedVar.Normal.mesd <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.Normal.mesd, file='stan_model_InformedVar_Normal_mesd.RDS')
+stan.model.informedVar.Normal.mesd <- stan_model(model_code=code)
 
-f <- 'SEG-informedVar-logNormal+me=CV.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_logNormal_mecv.stan'
 code <- readLines(f)
-stan.model.InformedVar.logNormal.mecv <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.logNormal.mecv, file='stan_model_InformedVar_logNormal_mecv.RDS')
+stan.model.informedVar.logNormal.mecv <- stan_model(model_code=code)
 
-f <- 'SEG-informedVar-Normal+me=CV.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_Normal_mecv.stan'
 code <- readLines(f)
-stan.model.InformedVar.Normal.mecv <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.Normal.mecv, file='stan_model_InformedVar_Normal_mecv.RDS')
+stan.model.informedVar.Normal.mecv <- stan_model(model_code=code)
 
 
 # Versions with use of past data
 
-f <- 'SEG-informedVar+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_pastData.stan'
 code <- readLines(f)
-stan.model.InformedVar.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.pastData, file='stan_model_InformedVar_pastData.RDS')
+stan.model.informedVar.pastData <- stan_model(model_code=code)
 
 
-f <- 'SEG-informedVar-logNormal+me=classic+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_logNormal_mesd_pastData.stan'
 code <- readLines(f)
-stan.model.InformedVar.logNormal.mesd.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.logNormal.mesd.pastData, file='stan_model_InformedVar_logNormal_mesd_pastData.RDS')
+stan.model.informedVar.logNormal.mesd.pastData <- stan_model(model_code=code)
 
-f <- 'SEG-informedVar-Normal+me=classic+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_Normal_mesd_pastData.stan'
 code <- readLines(f)
-stan.model.InformedVar.Normal.mesd.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.Normal.mesd.pastData, file='stan_model_InformedVar_Normal_mesd_pastData.RDS')
+stan.model.informedVar.Normal.mesd.pastData <- stan_model(model_code=code)
 
-f <- 'SEG-informedVar-logNormal+me=CV+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_logNormal_mecv_pastData.stan'
 code <- readLines(f)
-stan.model.InformedVar.logNormal.mecv.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.logNormal.mecv.pastData, file='stan_model_InformedVar_logNormal_mecv_pastData.RDS')
+stan.model.informedVar.logNormal.mecv.pastData <- stan_model(model_code=code)
 
-f <- 'SEG-informedVar-Normal+me=CV+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_Normal_mecv_pastData.stan'
 code <- readLines(f)
-stan.model.InformedVar.Normal.mecv.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedVar.Normal.mecv.pastData, file='stan_model_InformedVar_Normal_mecv_pastData.RDS')
-
-
+stan.model.informedVar.Normal.mecv.pastData <- stan_model(model_code=code)
 
 ##### InformedVar+Mean models ---------------------------
 
 
-f <- 'SEG-informedMean.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean.stan'
 code <- readLines(f)
 stan.model.InformedMean <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean, file='stan_model_InformedMean.RDS')
 
 
-f <- 'SEG-informedMean-logNormal+me=classic.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_logNormal_mesd.stan'
 code <- readLines(f)
 stan.model.InformedMean.logNormal.mesd <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.logNormal.mesd, file='stan_model_InformedMean_logNormal_mesd.RDS')
 
-f <- 'SEG-informedMean-Normal+me=classic.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_Normal_mesd.stan'
 code <- readLines(f)
 stan.model.InformedMean.Normal.mesd <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.Normal.mesd, file='stan_model_InformedMean_Normal_mesd.RDS')
 
-f <- 'SEG-informedMean-logNormal+me=CV.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_logNormal_mecv.stan'
 code <- readLines(f)
 stan.model.InformedMean.logNormal.mecv <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.logNormal.mecv, file='stan_model_InformedMean_logNormal_mecv.RDS')
 
-f <- 'SEG-informedMean-Normal+me=CV.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_Normal_mecv.stan'
 code <- readLines(f)
 stan.model.InformedMean.Normal.mecv <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.Normal.mecv, file='stan_model_InformedMean_Normal_mecv.RDS')
 
 
 # Versions with use of past data
 
-f <- 'SEG-informedMean+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_pastData.stan'
 code <- readLines(f)
 stan.model.InformedMean.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.pastData, file='stan_model_InformedMean_pastData.RDS')
 
 
-f <- 'SEG-informedMean-logNormal+me=classic+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_logNormal_mesd_pastData.stan'
 code <- readLines(f)
 stan.model.InformedMean.logNormal.mesd.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.logNormal.mesd.pastData, file='stan_model_InformedMean_logNormal_mesd_pastData.RDS')
 
-f <- 'SEG-informedMean-Normal+me=classic+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_Normal_mesd_pastData.stan'
 code <- readLines(f)
 stan.model.InformedMean.Normal.mesd.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.Normal.mesd.pastData, file='stan_model_InformedMean_Normal_mesd_pastData.RDS')
 
-f <- 'SEG-informedMean-logNormal+me=CV+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_logNormal_mecv_pastData.stan'
 code <- readLines(f)
 stan.model.InformedMean.logNormal.mecv.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.logNormal.mecv.pastData, file='stan_model_InformedMean_logNormal_mecv_pastData.RDS')
 
-f <- 'SEG-informedMean-Normal+me=CV+pastData.stan'
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_Normal_mecv_pastData.stan'
 code <- readLines(f)
 stan.model.InformedMean.Normal.mecv.pastData <- stan_model(model_code=code)
-saveRDS(stan.model.InformedMean.Normal.mecv.pastData, file='stan_model_InformedMean_Normal_mecv_pastData.RDS')
 

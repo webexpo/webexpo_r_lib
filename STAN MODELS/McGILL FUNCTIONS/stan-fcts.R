@@ -215,7 +215,7 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
   
   # Pick the appropriate Stan model to submit
   
-  tmp <- c('SEG','stan', 'model', priors.label)
+  tmp <- c('SEG','stan', 'model', priors.label)  ##### "SEG" added by Jerome Lavoué August 25th for clarity in model terminology
   
   if (me$any)
   {
