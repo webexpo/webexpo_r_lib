@@ -42,8 +42,8 @@
 # Measurement error specification
 # MCMC parameters
 # prior specification
-# Folder to retrieve the STAN model object
-# WARNING : Prior to running the function, a stan model object must be created and saved in the folder specified in the function (see "STAN MODELS/McGILL FUNCTIONS/complie_stanModels.R/")
+# model list (see compile-stan-models.R and Webexpo_examples-Stan.R)
+# WARNING : Prior to running the function, stan model object(s) must be created and stored in a list.
 
 
 
@@ -99,7 +99,7 @@ Webexpo.seg.globalbayesian.stan <-function(
                   init.mu = log(0.3) ,  #(default values valid for the lognormal distribution)
                   init.sigma = log(2.5),
                   
-                  models.folder=paste(stan.folder, '/models', sep='')
+                  models.list=stan.models.list
                   
 ) {
   
@@ -213,7 +213,7 @@ Webexpo.seg.globalbayesian.stan <-function(
                                 past.data = past.data ,
                                 me.sd.range = me.sd.range , 
                                 cv.range = cv.range ,
-                                models.folder = models.folder) 
+                                models.list=stan.models.list) 
     
     
   }
@@ -237,7 +237,7 @@ Webexpo.seg.globalbayesian.stan <-function(
                             outcome.is.logNormally.distributed = is.lognormal ,
                             me.sd.range = me.sd.range , 
                             cv.range = cv.range ,
-                            models.folder = models.folder) 
+                            models.list=stan.models.list) 
     
     
   }
