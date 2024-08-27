@@ -244,9 +244,9 @@ Webexpo.seg.globalbayesian.stan <-function(
   
 
 
-  if (is.lognormal) results <- list(mu.chain=res$sample$mu+log(oel),sigma.chain=res$sample$sd)
+  if (is.lognormal) results <- list(mu.chain=res$mu+log(oel),sigma.chain=res$sigma)
   
-  if (!is.lognormal) results <- list(mu.chain=res$sample$mu,sigma.chain=res$sample$sd)
+  if (!is.lognormal) results <- list(mu.chain=res$mu,sigma.chain=res$sigma)
   
   
   return(results)
