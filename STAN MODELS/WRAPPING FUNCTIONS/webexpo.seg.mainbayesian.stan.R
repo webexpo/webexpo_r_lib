@@ -208,7 +208,7 @@ Webexpo.seg.globalbayesian.stan <-function(
                                 log.sigma.mu = log.sigma.mu ,
                                 log.sigma.prec = log.sigma.prec ,
                                 init.mu = init.mu ,
-                                init.sigma = init.sigma ,
+                                init.sd = init.sigma ,
                                 outcome.is.logNormally.distributed = is.lognormal ,
                                 past.data = past.data ,
                                 me.sd.range = me.sd.range , 
