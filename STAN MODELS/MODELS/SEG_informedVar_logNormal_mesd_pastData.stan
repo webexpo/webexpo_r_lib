@@ -130,3 +130,4 @@ model
 
   me_sd ~ uniform(ME_SD_LO, ME_SD_HI);
 }
+// label: seg_informedvar_lognormal_mesd_pastdata

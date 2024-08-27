@@ -2,136 +2,115 @@
 
 ##### SCRIPT FOR CREATING THE STAN MODEL OBJECTS 
 
-# the compiled objects need to be saved in order as RDS objects to be used in the analysis
+# The scripts below permit to read the model code from the webexpo github repository and create stan models object
+
+# Once the desired models objects are created, they should be assigned to a list using the augment.stan.models.list function, as shown below
+
+# this list is an input for the calculation functions
 
 # Requires the RSTAN library to be active
 
-#### SEG ANALYSIS #####
+#### seg ANALYSIS #####
 
 
 
 ##### Uninformative models ---------------------------
 
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative.stan'
-code <- readLines(f)
-stan.model.uninformative <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative_logNormal_mesd.stan'
-code <- readLines(f)
-stan.model.uninformative.logNormal.mesd <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_lognormal_mesd.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative_Normal_mesd.stan'
-code <- readLines(f)
-stan.model.uninformative.Normal.mesd <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_normal_mesd.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative_logNormal_mecv.stan'
-code <- readLines(f)
-stan.model.uninformative.logNormal.mecv <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_lognormal_mecv.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_uninformative_Normal_mecv.stan'
-code <- readLines(f)
-stan.model.uninformative.Normal.mecv <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_normal_mecv.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
 
 
-##### InformedVar models ---------------------------
+##### Informedvar models ---------------------------
 
 
 
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar.stan'
-code <- readLines(f)
-stan.model.informedVar <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_logNormal_mesd.stan'
-code <- readLines(f)
-stan.model.informedVar.logNormal.mesd <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_lognormal_mesd.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_Normal_mesd.stan'
-code <- readLines(f)
-stan.model.informedVar.Normal.mesd <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mesd.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_logNormal_mecv.stan'
-code <- readLines(f)
-stan.model.informedVar.logNormal.mecv <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_lognormal_mecv.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_Normal_mecv.stan'
-code <- readLines(f)
-stan.model.informedVar.Normal.mecv <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mecv.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
 # Versions with use of past data
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_pastData.stan'
-code <- readLines(f)
-stan.model.informedVar.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_logNormal_mesd_pastData.stan'
-code <- readLines(f)
-stan.model.informedVar.logNormal.mesd.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_lognormal_mesd_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_Normal_mesd_pastData.stan'
-code <- readLines(f)
-stan.model.informedVar.Normal.mesd.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mesd_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_logNormal_mecv_pastData.stan'
-code <- readLines(f)
-stan.model.informedVar.logNormal.mecv.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_lognormal_mecv_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedVar_Normal_mecv_pastData.stan'
-code <- readLines(f)
-stan.model.informedVar.Normal.mecv.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mecv_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-##### InformedVar+Mean models ---------------------------
+##### Informedvar+mean models ---------------------------
 
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean.stan'
-code <- readLines(f)
-stan.model.InformedMean <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_logNormal_mesd.stan'
-code <- readLines(f)
-stan.model.InformedMean.logNormal.mesd <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mesd.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_Normal_mesd.stan'
-code <- readLines(f)
-stan.model.InformedMean.Normal.mesd <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mesd.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_logNormal_mecv.stan'
-code <- readLines(f)
-stan.model.InformedMean.logNormal.mecv <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mecv.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_Normal_mecv.stan'
-code <- readLines(f)
-stan.model.InformedMean.Normal.mecv <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mecv.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
 # Versions with use of past data
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_pastData.stan'
-code <- readLines(f)
-stan.model.InformedMean.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_logNormal_mesd_pastData.stan'
-code <- readLines(f)
-stan.model.InformedMean.logNormal.mesd.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mesd_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_Normal_mesd_pastData.stan'
-code <- readLines(f)
-stan.model.InformedMean.Normal.mesd.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mesd_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_logNormal_mecv_pastData.stan'
-code <- readLines(f)
-stan.model.InformedMean.logNormal.mecv.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mecv_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
-f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/SEG_informedMean_Normal_mecv_pastData.stan'
-code <- readLines(f)
-stan.model.InformedMean.Normal.mecv.pastData <- stan_model(model_code=code)
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mecv_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 

@@ -6,19 +6,19 @@
 
 # Requires sourcing the stan-fcts.R script
 
-# Requires the STAN MODEL to be used to be pre-compiled with the correct name in a folder selected by the user.
+# Requires the STAN MODEL to be used to be pre-compiled and available in a list .
 
-# Version 0.7 (Aug 2024)
+
+# Version 0.8 (Aug 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.7 (Aug 2024)
+# Version 0.8 (Aug 2024)
 #
+#  The agument models.list is back!
 #
-#
-#                                                            (end of Change Log)
-
+#    
 
 
 SEG.uninformative.stan <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
@@ -28,7 +28,7 @@ SEG.uninformative.stan <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
                                    init.mu=NULL, init.sd=NULL,
                                    outcome.is.logNormally.distributed=TRUE,
                                    me.sd.range=numeric(0), cv.range=numeric(0),
-                                   models.folder=paste(stan.folder, '/models', sep=''),
+                                   models.list=stan.models.list,
                                    silent=TRUE)
 {
   # Notes:
@@ -50,7 +50,7 @@ SEG.uninformative.stan <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
   
   o <- webexpo.stan.inits(y, lt, gt, interval.lower, interval.upper,
                           init.mu, init.sd,
-                          outcome.is.logNormally.distributed, me.sd.range, cv.range, models.folder, 'Uninformative',
+                          outcome.is.logNormally.distributed, me.sd.range, cv.range, models.list, 'Uninformative',
                           mu.lower, mu.upper, sd.range[1], sd.range[2])
   
   

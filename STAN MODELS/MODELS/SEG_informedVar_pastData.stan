@@ -105,3 +105,4 @@ model
   mu    ~ uniform(MU_LO, MU_HI);
   sigma ~ lognormal(LOGSIGMA_MEAN, LOGSIGMA_SD);
 }
+// label: seg_informedvar_pastdata

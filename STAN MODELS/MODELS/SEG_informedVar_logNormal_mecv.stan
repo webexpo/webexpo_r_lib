@@ -112,3 +112,4 @@ model
 
   cv ~ uniform(CV_LO, CV_HI);
 }
+// label: seg_informedvar_lognormal_mecv

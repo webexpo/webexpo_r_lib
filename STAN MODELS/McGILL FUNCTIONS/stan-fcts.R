@@ -1,12 +1,13 @@
 
-# Version 0.6 (Aug 2024)
+# Version 0.7 (Aug 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.6 (Aug 2024)
+# Version 0.7 (Aug 2024)
 #
-#  Added arg past.data to fct webexpo.stan.inits
+#   Adapted for Between-Workers model (but the models are not ready yet, actually...)
+#   Added fcts augment.stan.models.list & compiled.models.list
 #
 #                                                            (end of Change Log)
 
@@ -43,6 +44,44 @@ any.me <- function(sd.minmax, cv.minmax)
 } # end if any.me
 
 
+augment.stan.models.list <- function(stan.models.list, stan.file)
+{
+  if (!is.list(stan.models.list))  stop("Object stan.models.list is not a list. Please make it an empty list and resubmit.")
+  if (!file.exists(stan.file))     stop("Stan file not found: ", stan.file)
+  
+  
+  code <- readLines(stan.file)
+  tmp <- grep('label', code, value=TRUE)
+  model.label <- rev(unlist(strsplit(tmp, ' ')))[1]
+  
+  m <- match(model.label, names(stan.models.list), nomatch=-1)
+  
+  if (m > 0)  stop('Model read in ', stan.file, ' is already part of your list.')
+  
+  cat('Compiling model; please be patient... ')
+  t0 <- Sys.time()
+  model <- stan_model(model_code=code)
+  t1 <- Sys.time()
+  t <- round(as.numeric(difftime(t1, t0)), 1)
+  cat('Done (compiled in', t, 'seconds).\n')
+  
+  
+  n <- length(stan.models.list)
+  if (n == 0)  stan.models.list <- list(model)
+  else         stan.models.list <- append(stan.models.list, model)
+  
+  names(stan.models.list)[n+1] <- model.label
+  
+  return(stan.models.list)
+} # end of augment.stan.models.list
+
+
+compiled.models.list <- function(stan.models.list)
+{
+  return(sort(names(stan.models.list)))
+} # end of compiled.models.list
+
+
 extracted.nodes <- function(stan.out, monitor)
 {
   out <- list()
@@ -59,7 +98,7 @@ extracted.nodes <- function(stan.out, monitor)
 
 webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
                                mu.init, sigma.init, outcome.is.logNormally.distributed,
-                               me.sd.range, cv.range, models.folder, priors.label,
+                               me.sd.range, cv.range, models.list, model.label,
                                mu.lower=-Inf, mu.upper=Inf, sigma.lower=0, sigma.upper=Inf,
                                past.data=list(mean=numeric(0), sd=numeric(0), n=numeric(0)))
 {
@@ -80,6 +119,10 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
     
     return(x)
   } # end of within.range
+  
+  
+  if (length(models.list) == 0)  stop('models.list is empty. Please submit a list with at list one compiled model in.')
+  if (!is.list(models.list))     stop('models.list is not a R list.')
   
   
   # Verify that past.data is correctly used (when used)
@@ -213,34 +256,61 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
   }
   
   
-  # Pick the appropriate Stan model to submit
-  
-  tmp <- c('SEG','stan', 'model', priors.label)  ##### "SEG" added by Jerome Lavoué August 25th for clarity in model terminology
-  
-  if (me$any)
-  {
-    distrn <- ifelse(outcome.is.logNormally.distributed, 'logNormal', 'Normal')
-    me <- ifelse(me$through.cv, 'mecv', 'mesd')
-    tmp <- c(tmp, distrn, me)
-  }
-  
   if (past.data.used)
   {
-    tmp <- c(tmp, 'pastData')
-    
     data$pastData_n    <- past.data$n
     data$pastData_mean <- past.data$mean
     data$pastData_sd   <- past.data$sd
   }
   
   
-  # and load it!
+  # Pick the appropriate Stan model to submit
   
-  tmp <- paste(tmp, collapse='_')
-  f <- paste(models.folder, '/', tmp, '.RDS', sep='')
+  model <- webexpo.stan.model(model.label, me, outcome.is.logNormally.distributed, models.list, past.data.used)
   
-  if (!file.exists(f)) stop('File not found -> ', f, '\n\tPlease compile the corresponding stan model first and resubmit.')
-  model <- readRDS(f)
   
   return(list(data=data, inits=inits, monitor=monitor, model=model))
 } # end of webexpo.stan.inits
+
+
+webexpo.stan.model <- function(model.label, me, outcome.is.logNormally.distributed, models.list, past.data.used=FALSE, use.uniform.prior.on.sds=FALSE)
+{
+  tmp <- c('SEG', model.label)
+  
+  
+  if (model.label == 'BetweenWorkers' || me$any)
+  {
+    distrn <- ifelse(outcome.is.logNormally.distributed, 'logNormal', 'Normal')
+    tmp <- c(tmp, distrn)
+  }
+  
+  
+  if (model.label == 'BetweenWorkers')
+  {
+    sigma.prior <- ifelse(use.uniform.prior.on.sds, 'Uniform', 'logNormal')
+    tmp <- c(tmp, sigma.prior)
+  }
+  
+  
+  if (me$any)
+  {
+    me <- ifelse(me$through.cv, 'mecv', 'mesd')
+    tmp <- c(tmp, me)
+  }
+  
+  
+  if (past.data.used)  tmp <- c(tmp, 'pastData')
+  
+  
+  # Find the appropriate model in models.list
+  
+  tmp <- tolower(paste(tmp, collapse='_'))
+  
+  model.no <- match(tmp, names(models.list))
+  if (is.na(model.no))  stop('Expected model (', tmp, ') not found in models.list; sorry.')
+  
+  
+  model <- models.list[[model.no]]
+  
+  return(model)
+} # end of webexpo.stan.model

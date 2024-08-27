@@ -6,20 +6,20 @@
 
 # Requires sourcing the stan-fcts.R script
 
-# Requires the STAN MODEL to be used to be pre-compiled with the correct name in a folder selected by the user.
+# Requires the STAN MODEL to be used to be pre-compiled and available in a list .
 
 
 
-# Version 0.8 (Aug 2024)
+# Version 0.9 (Aug 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.8 (Aug 2024)
+# Version 0.9 (Aug 2024)
 #
-#  Added argument past.data
+#  The argument models.list is back!
 #
-# 
+#                                                            (end of Change Log)
 
 
 
@@ -33,7 +33,7 @@ SEG.informedvar.stan <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
                                  outcome.is.logNormally.distributed=TRUE,
                                  me.sd.range=numeric(0), cv.range=numeric(0),
                                  past.data=list(mean=numeric(0), sd=numeric(0), n=numeric(0)),
-                                 models.folder=paste(stan.folder, '/models', sep=''),
+                                 models.list=stan.models.list,
                                  silent=TRUE)
 {
   # Notes:
@@ -52,7 +52,7 @@ SEG.informedvar.stan <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
   
   o <- webexpo.stan.inits(y, lt, gt, interval.lower, interval.upper,
                           init.mu, init.sd,
-                          outcome.is.logNormally.distributed, me.sd.range, cv.range, models.folder, 'informedVar',
+                          outcome.is.logNormally.distributed, me.sd.range, cv.range, models.list, 'informedVar',
                           mu.lower, mu.upper, past.data=past.data)
   
   

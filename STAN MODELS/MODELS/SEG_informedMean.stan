@@ -74,3 +74,4 @@ model
   mu    ~ normal(MU_MEAN, MU_SD);
   sigma ~ lognormal(LOGSIGMA_MEAN, LOGSIGMA_SD);
 }
+// label: seg_informedmean

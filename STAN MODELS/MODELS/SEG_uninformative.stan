@@ -74,3 +74,4 @@ model
   mu    ~ uniform(MU_LO, MU_HI);
   sigma ~ uniform(SIGMA_LO, SIGMA_HI);
 }
+// label: seg_uninformative

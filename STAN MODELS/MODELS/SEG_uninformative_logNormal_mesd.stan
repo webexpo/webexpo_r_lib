@@ -100,3 +100,4 @@ model
 
   me_sd ~ uniform(ME_SD_LO, ME_SD_HI);
 }
+// label: seg_uninformative_lognormal_mesd

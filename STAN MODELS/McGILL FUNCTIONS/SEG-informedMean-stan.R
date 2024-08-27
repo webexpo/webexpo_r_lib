@@ -6,16 +6,16 @@
 
 # Requires sourcing the stan-fcts.R script
 
-# Requires the STAN MODEL to be used to be pre-compiled with the correct name in a folder selected by the user.
+# Requires the STAN MODEL to be used to be pre-compiled and available in a list .
 
-# Version 0.6 (Aug 2024)
+# Version 0.7 (Aug 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.6 (Aug 2024)
+# Version 0.7 (Aug 2024)
 #
-#  Added argument past.data
+#  The agument models.list is back!
 #
 #                                                            (end of Change Log)
 
@@ -30,7 +30,7 @@ SEG.informedmean.stan <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
                                   outcome.is.logNormally.distributed=TRUE,
                                   me.sd.range=numeric(0), cv.range=numeric(0),
                                   past.data=list(mean=numeric(0), sd=numeric(0), n=numeric(0)),
-                                  models.folder=paste(stan.folder, '/models', sep=''),
+                                  models.list=stan.models.list,
                                   silent=TRUE)
 {
   # Notes:
@@ -51,7 +51,7 @@ SEG.informedmean.stan <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),
   # Prepare data & inits
   o <- webexpo.stan.inits(y, lt, gt, interval.lower, interval.upper,
                           init.mu, init.sd,
-                          outcome.is.logNormally.distributed, me.sd.range, cv.range, models.folder, 'informedMean',
+                          outcome.is.logNormally.distributed, me.sd.range, cv.range, models.list, 'informedMean',
                           past.data=past.data)
   
   
