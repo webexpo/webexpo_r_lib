@@ -12,14 +12,19 @@
 
 #### seg ANALYSIS #####
 
+stan.models.list <- list()
 
+
+#### names the models in the created list : 
+
+compiled.models.list(stan.models.list)
 
 ##### Uninformative models ---------------------------
 
 
 f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative.stan'
-stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
+stan.models.list <- augment.stan.models.list(stan.models.list, stan.file = f)
 
 f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_lognormal_mesd.stan'
 stan.models.list <- augment.stan.models.list(stan.models.list, f)

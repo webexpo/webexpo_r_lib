@@ -1,13 +1,16 @@
 
-# Version 0.7 (Aug 2024)
+# Version 0.8 (Aug 2024)
+# 		Shared/distributed: no
+# 		Last shared version: 0.7
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.7 (Aug 2024)
+# Version 0.8 (Aug 2024)
 #
-#   Adapted for Between-Workers model (but the models are not ready yet, actually...)
-#   Added fcts augment.stan.models.list & compiled.models.list
+#
+#  Added fct drop.model.from.list
+#  Does not test for existence of .stan file before reading it (when remote[https://etc])
 #
 #                                                            (end of Change Log)
 
@@ -46,8 +49,8 @@ any.me <- function(sd.minmax, cv.minmax)
 
 augment.stan.models.list <- function(stan.models.list, stan.file)
 {
-  if (!is.list(stan.models.list))  stop("Object stan.models.list is not a list. Please make it an empty list and resubmit.")
-  if (!file.exists(stan.file))     stop("Stan file not found: ", stan.file)
+  if (!is.list(stan.models.list))                      stop("Object stan.models.list is not a list. Please make it an empty list and resubmit.")
+  if (!grepl('https:', f) && !file.exists(stan.file))  stop("Stan file not found: ", stan.file)
   
   
   code <- readLines(stan.file)
@@ -80,6 +83,22 @@ compiled.models.list <- function(stan.models.list)
 {
   return(sort(names(stan.models.list)))
 } # end of compiled.models.list
+
+
+drop.model.from.list <- function(stan.models.list, model2drop.label)
+{
+  if (!is.list(stan.models.list))  stop('stan.models.list is not a list.')
+  model.names <- names(stan.models.list)
+  
+  if (is.null(model.names))  stop('stan.models.list is empty.')
+  
+  m <- match(model2drop.label, model.names, nomatch=-1)
+  if (m < 0)  stop('Model ', model2drop.label, ' is alread absent from stan.models.list')
+  
+  stan.models.list <- stan.models.list[-m]
+  
+  return(stan.models.list)
+} # end of drop.model.from.list
 
 
 extracted.nodes <- function(stan.out, monitor)

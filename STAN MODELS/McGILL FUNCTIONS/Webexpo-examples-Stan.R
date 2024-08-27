@@ -1,24 +1,13 @@
 # Exemples d'appels de la version Stan de quelques algorithmes de WebExpo
 
-# Attention: il y a des paths a modifier avant la premiere utilisation des fichiers suivants:
-#   (cf. les lignes où on trouve un commentaire 'ICI' dans ces fichiers)
-#            1) SEG*-stan.R
-#            2) models/compile*.R
-#            3) stan-fcts.R
-#            4) dans le fichier que vous etes en train de lire, ci-dessous
-#
-
-
 # steps to running an example 
 
-# 1) set the working directory to the folder where the local stan model files will be located
-# 2) source the stan functions from github
-# 3) compile de selected model and store it in tghe above folder
+
+# 1) source the stan functions from github
+# 2) compile the selected models and create the model list as describe in compile-stan-models.R
 # 4) run the stan function with the data
 
-stan.folder <- 'F:/Dropbox/temp/stanmodels'
 
-setwd(stan.folder)
 
 # --- sourcing the stan functions -------------------------------------------------------------------------
 
