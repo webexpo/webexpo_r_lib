@@ -39,11 +39,20 @@ f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODE
 stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_lognormal_mesdknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_normal_mesdknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_lognormal_mecvknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_uninformative_normal_mecvknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
 ##### Informedvar models ---------------------------
-
-
 
 
 f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar.stan'
@@ -61,6 +70,20 @@ stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mecv.stan'
 stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_lognormal_mesdknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mesdknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_lognormal_mecvknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mecvknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
 
 
 # Versions with use of past data
@@ -81,6 +104,20 @@ stan.models.list <- augment.stan.models.list(stan.models.list, f)
 f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mecv_pastdata.stan'
 stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_lognormal_mesdknown_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mesdknown_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_lognormal_mecvknown_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedvar_normal_mecvknown_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+
 ##### Informedvar+mean models ---------------------------
 
 
@@ -98,6 +135,18 @@ f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODE
 stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mecv.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mesdknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mesdknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mecvknown.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mecvknown.stan'
 stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
 
@@ -119,3 +168,14 @@ stan.models.list <- augment.stan.models.list(stan.models.list, f)
 f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mecv_pastdata.stan'
 stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mesdknown_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mesdknown_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mecvknown_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_normal_mecvknown_pastdata.stan'
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
