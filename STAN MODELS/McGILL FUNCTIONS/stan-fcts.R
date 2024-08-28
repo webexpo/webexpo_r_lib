@@ -1,16 +1,13 @@
 
-# Version 0.8 (Aug 2024)
-# 		Shared/distributed: no
-# 		Last shared version: 0.7
+# Version 0.9 (Aug 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.8 (Aug 2024)
+# Version 0.9 (Aug 2024)
 #
-#
-#  Added fct drop.model.from.list
-#  Does not test for existence of .stan file before reading it (when remote[https://etc])
+#  Corrected fct drop.model.from.list
+#  Modified fct webexpo.stan.inits with regards to fixed ME
 #
 #                                                            (end of Change Log)
 
@@ -50,7 +47,7 @@ any.me <- function(sd.minmax, cv.minmax)
 augment.stan.models.list <- function(stan.models.list, stan.file)
 {
   if (!is.list(stan.models.list))                      stop("Object stan.models.list is not a list. Please make it an empty list and resubmit.")
-  if (!grepl('https:', f) && !file.exists(stan.file))  stop("Stan file not found: ", stan.file)
+  if (!grepl('https:', stan.file) && !file.exists(stan.file))  stop("Stan file not found: ", stan.file)
   
   
   code <- readLines(stan.file)
@@ -87,14 +84,17 @@ compiled.models.list <- function(stan.models.list)
 
 drop.model.from.list <- function(stan.models.list, model2drop.label)
 {
+  # model2drop.label: can be of length > 1
+  
   if (!is.list(stan.models.list))  stop('stan.models.list is not a list.')
   model.names <- names(stan.models.list)
   
   if (is.null(model.names))  stop('stan.models.list is empty.')
   
   m <- match(model2drop.label, model.names, nomatch=-1)
-  if (m < 0)  stop('Model ', model2drop.label, ' is alread absent from stan.models.list')
+  if (all(m < 0))  stop('Model(s) ', model2drop.label, ' is(are) absent from stan.models.list')
   
+  m <- m[m > 0]
   stan.models.list <- stan.models.list[-m]
   
   return(stan.models.list)
@@ -216,29 +216,47 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
   {
     if (me$through.cv)
     {
-      data$CV_LO <- cv.range[1]
-      data$CV_HI <- cv.range[2]
+      my.cv <- mean(cv.range)
       
-      inits$cv <- (data$CV_LO + data$CV_HI) / 2
+      if (me$known)
+      {
+        data$cv <- my.cv
+      }
+      else
+      {
+        data$CV_LO <- cv.range[1]
+        data$CV_HI <- cv.range[2]
+        
+        inits$cv <- my.cv
+      }
       
       # Generate inits for (latent) true values
       
-      inits$true_y   <- rnorm(data$N, data$y,   inits$cv*data$y)
-      inits$true_lt  <- rnorm(data$L, data$lt,  inits$cv*data$lt)
-      inits$true_gt  <- rnorm(data$G, data$gt,  inits$cv*data$gt)
+      inits$true_y   <- rnorm(data$N, data$y,  my.cv*data$y)
+      inits$true_lt  <- rnorm(data$L, data$lt, my.cv*data$lt)
+      inits$true_gt  <- rnorm(data$G, data$gt, my.cv*data$gt)
     }
     else
     {
-      data$ME_SD_LO <- me.sd.range[1]
-      data$ME_SD_HI <- me.sd.range[2]
+      my.me_sd <- mean(me.sd.range)
       
-      inits$me_sd <- (data$ME_SD_LO + data$ME_SD_HI) / 2
+      if (me$known)
+      {
+        data$me_sd <- my.me_sd
+      }
+      else
+      {
+        data$ME_SD_LO <- me.sd.range[1]
+        data$ME_SD_HI <- me.sd.range[2]
+        
+        inits$me_sd <- my.me_sd
+      }
       
       # Generate inits for (latent) true values
       
-      inits$true_y   <- rnorm(data$N, data$y,   inits$me_sd)
-      inits$true_lt  <- rnorm(data$L, data$lt,  inits$me_sd)
-      inits$true_gt  <- rnorm(data$G, data$gt,  inits$me_sd)
+      inits$true_y   <- rnorm(data$N, data$y,  my.me_sd)
+      inits$true_lt  <- rnorm(data$L, data$lt, my.me_sd)
+      inits$true_gt  <- rnorm(data$G, data$gt, my.me_sd)
     }
     
     
@@ -257,7 +275,7 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
   
   if (outcome.is.logNormally.distributed && !me$any)
   {
-    data$y <- log(data$y)
+    data$y  <- log(data$y)
     data$lt <- log(data$lt)
     data$gt <- log(data$gt)
     data$interval <- log(data$interval)
@@ -268,7 +286,7 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
   
   monitor <- c('mu', 'sigma')
   
-  if (me$any)
+  if (me$any && !me$known)
   {
     tmp <- ifelse(me$through.cv, 'cv', 'me_sd')
     monitor <- c(monitor, tmp)
@@ -313,8 +331,9 @@ webexpo.stan.model <- function(model.label, me, outcome.is.logNormally.distribut
   
   if (me$any)
   {
-    me <- ifelse(me$through.cv, 'mecv', 'mesd')
-    tmp <- c(tmp, me)
+    ME <- ifelse(me$through.cv, 'mecv', 'mesd')
+    if (me$known)  ME <- paste(ME, 'known', sep='')
+    tmp <- c(tmp, ME)
   }
   
   

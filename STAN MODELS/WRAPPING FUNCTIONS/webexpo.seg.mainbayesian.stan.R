@@ -99,7 +99,7 @@ Webexpo.seg.globalbayesian.stan <-function(
                   init.mu = log(0.3) ,  #(default values valid for the lognormal distribution)
                   init.sigma = log(2.5),
                   
-                  models.list=stan.models.list
+                  models.list=models.list
                   
 ) {
   
@@ -213,7 +213,7 @@ Webexpo.seg.globalbayesian.stan <-function(
                                 past.data = past.data ,
                                 me.sd.range = me.sd.range , 
                                 cv.range = cv.range ,
-                                models.list=stan.models.list) 
+                                models.list=models.list) 
     
     
   }
@@ -237,7 +237,7 @@ Webexpo.seg.globalbayesian.stan <-function(
                             outcome.is.logNormally.distributed = is.lognormal ,
                             me.sd.range = me.sd.range , 
                             cv.range = cv.range ,
-                            models.list=stan.models.list) 
+                            models.list=models.list) 
     
     
   }

@@ -8,16 +8,14 @@
 
 # Requires the STAN MODEL to be used to be pre-compiled and available in a list .
 
-
-
-# Version 0.9 (Aug 2024)
+# Version 0.10 (Aug 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.9 (Aug 2024)
+# Version 0.10 (Aug 2024)
 #
-#  The argument models.list is back!
+#
 #
 #                                                            (end of Change Log)
 

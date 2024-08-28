@@ -9,16 +9,17 @@
 # Requires the STAN MODEL to be used to be pre-compiled and available in a list .
 
 
-# Version 0.8 (Aug 2024)
+
+# Version 0.9 (Aug 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.8 (Aug 2024)
+# Version 0.9 (Aug 2024)
 #
-#  The agument models.list is back!
 #
-#    
+#
+#                                                            (end of Change Log)
 
 
 SEG.uninformative.stan <- function(y=numeric(0), lt=numeric(0), gt=numeric(0),

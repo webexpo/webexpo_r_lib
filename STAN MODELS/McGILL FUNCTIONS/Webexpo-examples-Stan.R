@@ -30,6 +30,17 @@ f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODE
 
 stan.models.list <- augment.stan.models.list(stan.models.list, f)
 
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mecv.stan'
+
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+f <- 'https://raw.githubusercontent.com/webexpo/webexpo_r_lib/master/STAN%20MODELS/MODELS/seg_informedmean_lognormal_mecvknown.stan'
+
+stan.models.list <- augment.stan.models.list(stan.models.list, f)
+
+
+
+
 compiled.models.list(stan.models.list)
 
 
@@ -48,10 +59,33 @@ plot(o$mu, o$sigma, type='p', pch='.')
 # --- InformedVar -------------------------------------------------------------------------
 
 
+
 y <- c(6, 7.2, 5.4, 6.08)
-o <- SEG.informedvar.stan(y, outcome.is.logNormally.distributed=FALSE,
-                          models.list=stan.models.list)
+o <- SEG.informedvar.stan(y, outcome.is.logNormally.distributed=FALSE)
 
 plot(o$mu, o$sigma, type='p', pch='.')
+
+
+
+#  ---- measurement error -------------------------------------------------------------------------
+
+y <- c(6, 7.2, 5.4, 6.08, 15, 12, 30)
+o <- SEG.informedvar.stan(y, outcome.is.logNormally.distributed=TRUE, cv.range=c(0.24, 0.26))
+plot(o$mu, o$sigma, type='p', pch='.')
+
+quantile(o$mu, c(0.1, 0.9))
+quantile(o$sigma, c(0.1, 0.9))
+
+# -> not very good posterior
+
+# using the known CV version
+y <- c(6, 7.2, 5.4, 6.08, 15, 12, 30)
+o <- SEG.informedvar.stan(y, outcome.is.logNormally.distributed=TRUE, cv.range=c(0.25, 0.25))
+plot(o$mu, o$sigma, type='p', pch='.')
+quantile(o$mu, c(0.1, 0.9))
+quantile(o$sigma, c(0.1, 0.9))
+
+# -> much better posterior
+
 
 
