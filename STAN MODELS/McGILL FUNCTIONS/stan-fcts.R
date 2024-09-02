@@ -1,13 +1,12 @@
 
-# Version 0.10 (Aug 2024)
+# Version 0.11 (Sep 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.10 (Aug 2024)
+# Version 0.11 (Sep 2024)
 #
-# Added argument 'recompile' to function augment.stan.models.list
-# Added as.array protection in fct webexpo.stan.inits
+#  Correction to potection against non-arrays.
 #
 #                                                            (end of Change Log)
 
@@ -321,9 +320,12 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
   data$lt <- as.array(data$lt)
   data$gt <- as.array(data$gt)
   
-  inits$true_y  <- as.array(inits$true_y)
-  inits$true_lt <- as.array(inits$true_lt)
-  inits$true_gt <- as.array(inits$true_gt)
+  if (me$any)
+  {
+    inits$true_y  <- as.array(inits$true_y)
+    inits$true_lt <- as.array(inits$true_lt)
+    inits$true_gt <- as.array(inits$true_gt)
+  }
   
   
   return(list(data=data, inits=inits, monitor=monitor, model=model))
