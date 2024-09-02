@@ -1,13 +1,13 @@
 
-# Version 0.9 (Aug 2024)
+# Version 0.10 (Aug 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.9 (Aug 2024)
+# Version 0.10 (Aug 2024)
 #
-#  Corrected fct drop.model.from.list
-#  Modified fct webexpo.stan.inits with regards to fixed ME
+# Added argument 'recompile' to function augment.stan.models.list
+# Added as.array protection in fct webexpo.stan.inits
 #
 #                                                            (end of Change Log)
 
@@ -44,9 +44,12 @@ any.me <- function(sd.minmax, cv.minmax)
 } # end if any.me
 
 
-augment.stan.models.list <- function(stan.models.list, stan.file)
+augment.stan.models.list <- function(stan.models.list, stan.file, recompile=FALSE)
 {
-  if (!is.list(stan.models.list))                      stop("Object stan.models.list is not a list. Please make it an empty list and resubmit.")
+  # Call with recompile=TRUE when you want to force compilation of model
+  #                          if it is already present in stan.models.list
+  
+  if (!is.list(stan.models.list))                              stop("Object stan.models.list is not a list. Please make it an empty list and resubmit.")
   if (!grepl('https:', stan.file) && !file.exists(stan.file))  stop("Stan file not found: ", stan.file)
   
   
@@ -56,7 +59,13 @@ augment.stan.models.list <- function(stan.models.list, stan.file)
   
   m <- match(model.label, names(stan.models.list), nomatch=-1)
   
-  if (m > 0)  stop('Model read in ', stan.file, ' is already part of your list.')
+  
+  if (m > 0)
+  {
+    if (!recompile)  stop('Model read in ', stan.file, ' is already part of your list.')
+    stan.models.list <- stan.models.list[-m]
+  }
+  
   
   cat('Compiling model; please be patient... ')
   t0 <- Sys.time()
@@ -304,6 +313,17 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
   # Pick the appropriate Stan model to submit
   
   model <- webexpo.stan.model(model.label, me, outcome.is.logNormally.distributed, models.list, past.data.used)
+  
+  
+  # Make sure a few objects are vectors/arrays
+  
+  data$y  <- as.array(data$y)
+  data$lt <- as.array(data$lt)
+  data$gt <- as.array(data$gt)
+  
+  inits$true_y  <- as.array(inits$true_y)
+  inits$true_lt <- as.array(inits$true_lt)
+  inits$true_gt <- as.array(inits$true_gt)
   
   
   return(list(data=data, inits=inits, monitor=monitor, model=model))
