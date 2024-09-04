@@ -1,12 +1,12 @@
 
-# Version 0.11 (Sep 2024)
+# Version 0.13 (Sep 2024)
 
 
 # ------------------------------------------------------------------------------
 # New in
-# Version 0.11 (Sep 2024)
+# Version 0.13 (Sep 2024)
 #
-#  Correction to potection against non-arrays.
+#  Slight modif to last correction (with regards to positive initial values for "true values")
 #
 #                                                            (end of Change Log)
 
@@ -129,6 +129,16 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
                                mu.lower=-Inf, mu.upper=Inf, sigma.lower=0, sigma.upper=Inf,
                                past.data=list(mean=numeric(0), sd=numeric(0), n=numeric(0)))
 {
+  rnorm.pos <- function(mu, sigma)
+  {
+    # To generate N(mu, sigma) random values POSITIVE VALUES
+    L <- length(mu)
+    p <- pnorm(0, mu, sigma)
+    u <- runif(L, min=p)
+    return(qnorm(u, mu, sigma))
+  } # end of rnorm.pos
+  
+  
   within.range <- function(tentative.theta, theta.lower, theta.upper, f=0.10)
   {
     x <- tentative.theta
@@ -240,9 +250,9 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
       
       # Generate inits for (latent) true values
       
-      inits$true_y   <- rnorm(data$N, data$y,  my.cv*data$y)
-      inits$true_lt  <- rnorm(data$L, data$lt, my.cv*data$lt)
-      inits$true_gt  <- rnorm(data$G, data$gt, my.cv*data$gt)
+      inits$true_y   <- rnorm.pos(data$y,  my.cv*data$y)
+      inits$true_lt  <- rnorm.pos(data$lt, my.cv*data$lt)
+      inits$true_gt  <- rnorm.pos(data$gt, my.cv*data$gt)
     }
     else
     {
@@ -262,9 +272,18 @@ webexpo.stan.inits <- function(y, lt, gt, interval.lower, interval.upper,
       
       # Generate inits for (latent) true values
       
-      inits$true_y   <- rnorm(data$N, data$y,  my.me_sd)
-      inits$true_lt  <- rnorm(data$L, data$lt, my.me_sd)
-      inits$true_gt  <- rnorm(data$G, data$gt, my.me_sd)
+      if (outcome.is.logNormally.distributed)
+      {
+        inits$true_y   <- rnorm.pos(data$y,  my.me_sd)
+        inits$true_lt  <- rnorm.pos(data$lt, my.me_sd)
+        inits$true_gt  <- rnorm.pos(data$gt, my.me_sd)
+      }
+      else
+      {
+        inits$true_y   <- rnorm(data$N, data$y,  my.me_sd)
+        inits$true_lt  <- rnorm(data$L, data$lt, my.me_sd)
+        inits$true_gt  <- rnorm(data$G, data$gt, my.me_sd)
+      }
     }
     
     
