@@ -222,7 +222,7 @@ Webexpo.seg.globalbayesian.stan <-function(
   if (prior.model == "uninformative") {
     
     
-    res <-SEG.uninformative(y = observed_values , 
+    res <-SEG.uninformative.stan(y = observed_values , 
                             lt = leftcensored_values ,
                             gt = rightcensored_values ,
                             interval.lower = intcensored_left_values ,
