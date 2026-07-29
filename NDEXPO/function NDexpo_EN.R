@@ -92,20 +92,24 @@ fun.NdExpo.lognorm <-function(x){
 ###################### less than 3 detects or  less than 5 total  #################################
 	
 	  else if(length(x[is.censored!=0])<3 | length(x)<5) {
-    
-    x.ordered[is.censored==0]<-x.ordered[is.censored==0]/2
-    
-    
-    y <- log(as.numeric(x.ordered))  
-    
-    pp <-((1:length(x))-0.375)/(length(x)+0.25)  
-    
-    
-    
-    res <-list(data=data.frame(xfin=x.ordered[x.order],yfin=y[x.order],is.censored=is.censored[x.order],pp=pp[x.order],order.index=x.order,x=x.ordered[x.order]),
+
+    # July 2026 : substitution is applied to a working copy so that x.ordered,
+    # which is returned as $x (the initial data), is left untouched.
+
+    x.imputed <- x.ordered
+
+    x.imputed[is.censored==0] <- x.imputed[is.censored==0]/2
+
+    y <- log(as.numeric(x.imputed))
+
+    pp <-((1:length(x))-0.375)/(length(x)+0.25)
+
+
+
+    res <-list(data=data.frame(xfin=x.imputed[x.order],yfin=y[x.order],is.censored=is.censored[x.order],pp=pp[x.order],order.index=x.order,x=x.ordered[x.order]),
                alpha=0,beta=0)
-    
-    
+
+
   }
 
 ######### otherwise
